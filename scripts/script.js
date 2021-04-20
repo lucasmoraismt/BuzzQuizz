@@ -1,3 +1,5 @@
+
+let quizzesArray = [];
 getQuizzes();
 
 function getQuizzes () {
@@ -8,6 +10,7 @@ function getQuizzes () {
 
 function displayQuizzes(response) {
 
+    quizzesArray = response.data;
     for(i = 0; i < response.data.length; i++) {
 
         let quizz = response.data[i];
