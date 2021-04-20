@@ -114,7 +114,7 @@ function clickedAnswer(option){
     const quizzIsOver = (currentQuizzObject.rights + currentQuizzObject.wrongs === currentQuizzObject.questions.length)
     if(quizzIsOver){
         console.log("quizzIsOver")
-        //displayResult()
+        displayLevel()
     }
     const optionsDiv = option.parentNode 
     optionsDiv.classList.remove("not-clicked");
@@ -125,6 +125,24 @@ function clickedAnswer(option){
         optionsDiv.parentNode.nextElementSibling.scrollIntoView({ behavior: 'smooth', block: 'center'});
     }, 2000);
 }
+function displayLevel(){
+    const levelDiv = document.querySelector("#inside-quizz .level")
+    const rightsPercent = ((currentQuizzObject.rights / currentQuizzObject.questions.length) * 100)
+    const levelObject = {}
+    currentQuizzObject.levels.forEach(level => {
+        if(rightsPercent >= level.minValue){
+            levelObject.title = level.title;
+            levelObject.image = level.image;
+            levelObject.text = level.text;
+        }
+    })
+    const levelHTML=`
+    <div>${rightsPercent}% de acerto: ${levelObject.title}</div>
+    <img src="${levelObject.image}">
+    <span>${levelObject.text}</span>`
+    levelDiv.innerHTML = levelHTML;
+}
+
 function comparator() {
     return Math.random() - 0.5;
 }
