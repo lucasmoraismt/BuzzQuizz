@@ -15,7 +15,7 @@ function displayQuizzes(response) {
 
         let quizz = quizzesArray[i];
         let quizzHTML = `
-            <li class="quizz" onclick="openQuizz()">
+            <li class="quizz" onclick="openQuizz(${quizz.id})">
                 <img src="${quizz.image}">
                 <div id="gradient">
                     <p class="quizz-title">${quizz.title}</p>
@@ -31,6 +31,10 @@ function displayQuizzes(response) {
 //    quizzResquest.then(renderQuizz)
 //}
 
+function openQuizz(id) {
+    renderQuizz(id);
+    //essa função vai tratar trocar de página, load e tal, só criei agora pra testar
+}
 function renderQuizz(id) {
     const thisQuizzArray = quizzesArray[id - 1]
     console.log(thisQuizzArray)
