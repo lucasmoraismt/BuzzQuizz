@@ -65,17 +65,11 @@ body {
     color: #EC362D;
 }
 
-.quizz-list {
-    width: 100%;
-    margin-top: 30px;
-    display: flex;
-    flex-direction: column;
-}
-
 .your-quizzes, .all-quizzes {
     width: 100%;
     display: flex;
     flex-direction: column;
+    margin-top: 30px;
 }
 
 .title {
@@ -88,12 +82,25 @@ body {
 .quizz {
     width: 100%;
     height: 180px;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.5) 65.62%, rgba(0, 0, 0, 0.8) 100%), url(https://wallpaperaccess.com/full/541378.jpg);
-    background-size: cover;
     border-radius: 5px;
+    margin: 15px 0px;
+    position: relative;
+}
+
+.quizz img {
+    width: 100%;
+    height: 100%;
+}
+
+#gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: flex-end;
-    margin: 15px 0px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.5) 65.62%, rgba(0, 0, 0, 0.8) 100%);
 }
 
 .quizz-title {
@@ -101,4 +108,8 @@ body {
     font-size: 19px;
     line-height: 22px;
     color: #FFF;
+}
+
+.hidden {
+    display: none;
 }
