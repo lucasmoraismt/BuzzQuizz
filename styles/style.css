@@ -1,0 +1,24 @@
+
+a, div, span, h1, p, li {
+    font-family: 'Roboto', sans-serif;
+}
+
+.top {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 70px;
+    width: 100vw;
+    background-color: #EC362D;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.top h1 {
+    font-weight: bold;
+    font-size: 37px;
+    line-height: 43px;
+    color: #FFF;
+}
