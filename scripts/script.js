@@ -58,18 +58,17 @@ function openQuizz(id) {
     //essa função vai tratar trocar de página, load e tal, só criei agora pra testar
 }
 function renderQuizz(id) {
-    const thisQuizzObject = quizzesArray.find(quizzes => quizzes.id === id);
-    console.log(thisQuizzObject)
-    const questions = thisQuizzObject.questions.sort(comparator)
+    const currentQuizzObject = quizzesArray.find(quizz => quizz.id === id);
+    const questions = currentQuizzObject.questions.sort(comparator)
     const insideQuizzDiv = document.getElementById("inside-quizz")
-    let newQuizzHTML = `
+    let currentQuizzHTML = `
         <div class="quizz-title">
-            <img src="${thisQuizzObject.image}" class="top-image">
-            <div>${thisQuizzObject.title}</div>
+            <img src="${currentQuizzObject.image}" class="top-image">
+            <div>${currentQuizzObject.title}</div>
         </div>`
 
         questions.forEach(question => {
-        newQuizzHTML += `
+        currentQuizzHTML += `
         <div class="question-box">
             <div class="question">${question.title}</div>
                 <div class="options not-clicked">`
@@ -78,17 +77,35 @@ function renderQuizz(id) {
             if (answer.isCorrectAnswer === true) {
                 rightOrWrong = "right"
             }
-            newQuizzHTML += `
-            <div class="option ${rightOrWrong}">
+            currentQuizzHTML += `
+            <div class="option ${rightOrWrong}" onclick="clickedAnswer(this)">
                 <img src="${answer.image}">
                 <p>${answer.text}</p>
             </div>`
         });
-        newQuizzHTML += `
+        currentQuizzHTML += `
         </div>
-    </div>`
+    </div>
+    `
     });
-    insideQuizzDiv.innerHTML = newQuizzHTML;
+    currentQuizzHTML +=`
+    <div class="level">
+    <div>x% de acerto: Muito pouco</div>
+        <img src="https://p.favim.com/orig/2018/09/09/sad-friends-sitcom-Favim.com-6248241.jpg" alt="">
+        <span>Parece que a pandemia não te afetou tanto. Depois de um ano já deveria saber pelo menos metade das falas de trás pra frente!</span>
+</div>
+<button class="restart-quizz">Reiniciar Quizz</button>
+<button class="back-home">Voltar pra home</button>
+</div>
+    `
+    insideQuizzDiv.innerHTML = currentQuizzHTML;
+}
+function clickedAnswer(option){
+    console.log(option)
+    option.parentNode.classList.remove("not-clicked");
+    option.classList.add("clicked");
+    const options = option.parentNode.querySelectorAll(".option")
+    options.forEach(option => option.removeAttribute("onclick"));
 }
 function comparator() {
     return Math.random() - 0.5;

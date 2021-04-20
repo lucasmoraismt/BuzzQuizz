@@ -28,7 +28,7 @@ body {
 }
 
 .app {
-    width: 100%;
+    width: 100vw;
     height: calc(100vh - 70px);
     display: flex;
     flex-direction: column;
@@ -193,6 +193,10 @@ body {
 }
 #inside-quizz .options:not(.not-clicked) .option.right{
     color: #009C22;
+    opacity: 0.3;
+}
+#inside-quizz .options:not(.not-clicked) .option.clicked{
+    opacity: 1;
 }
 #inside-quizz .option img{
     max-width: 100%;
