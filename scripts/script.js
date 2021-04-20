@@ -1,6 +1,7 @@
 
 let quizzesArray = [];
 let localStorageArray = [];
+let currentQuizzObject = {};
 getLocalStorage();
 getQuizzes();
 
@@ -58,7 +59,9 @@ function openQuizz(id) {
     //essa função vai tratar trocar de página, load e tal, só criei agora pra testar
 }
 function renderQuizz(id) {
-    const currentQuizzObject = quizzesArray.find(quizz => quizz.id === id);
+    currentQuizzObject = quizzesArray.find(quizz => quizz.id === id);
+    currentQuizzObject.rights = 0;
+    currentQuizzObject.wrongs = 0;
     const questions = currentQuizzObject.questions.sort(comparator)
     const insideQuizzDiv = document.getElementById("inside-quizz")
     let currentQuizzHTML = `
@@ -72,7 +75,8 @@ function renderQuizz(id) {
         <div class="question-box">
             <div class="question">${question.title}</div>
                 <div class="options not-clicked">`
-        question.answers.forEach(answer => {
+        const answers = question.answers.sort(comparator)
+        answers.forEach(answer => {
             let rightOrWrong = "wrong"
             if (answer.isCorrectAnswer === true) {
                 rightOrWrong = "right"
@@ -101,7 +105,17 @@ function renderQuizz(id) {
     insideQuizzDiv.innerHTML = currentQuizzHTML;
 }
 function clickedAnswer(option){
-    console.log(option)
+    const rightOption = option.classList.contains("right")
+    if(rightOption){
+        currentQuizzObject.rights += 1;
+    } else {
+        currentQuizzObject.wrongs += 1;
+    }
+    const quizzIsOver = (currentQuizzObject.rights + currentQuizzObject.wrongs === currentQuizzObject.questions.length)
+    if(quizzIsOver){
+        console.log("quizzIsOver")
+        //displayResult()
+    }
     option.parentNode.classList.remove("not-clicked");
     option.classList.add("clicked");
     const options = option.parentNode.querySelectorAll(".option")
