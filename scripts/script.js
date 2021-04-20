@@ -1,6 +1,22 @@
 
 let quizzesArray = [];
+let localStorageArray = [];
+getLocalStorage();
 getQuizzes();
+
+function getLocalStorage() {
+    let string = localStorage.getItem("id");
+    if(string !== null) {
+        newArray = string.split(",");
+        localStorageArray = newArray;
+    }
+}
+
+function setLocalStorage(newId) {
+    localStorageArray.push(newId);
+    newString = localStorageArray.toString();
+    localStorage.setItem('id', `${newString}`);
+}
 
 function getQuizzes() {
     let promise = axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v2/buzzquizz/quizzes');
@@ -22,7 +38,13 @@ function displayQuizzes(response) {
                 </div>
             </li>`
         let allQuizzes = document.querySelector(".all-quizzes");
-        allQuizzes.innerHTML += quizzHTML;
+        let yourQuizzes = document.querySelector(".your-quizzes");
+        
+        if(localStorageArray.includes(quizz.id)) {
+            yourQuizzes.innerHTML += quizzHTML;
+        } else {
+            allQuizzes.innerHTML += quizzHTML;
+        }
     }
 }
 
