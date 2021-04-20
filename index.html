@@ -25,18 +25,11 @@
                 <p>Você não criou nenhum quizz ainda :(</p>
                 <button onclick="newQuizz()">Criar Quizz</button>
             </div>
-            <div class="your-quizzes hidden"></div>
+            <ul class="your-quizzes hidden"></ul>
 
-            <div class="all-quizzes">
+            <ul class="all-quizzes">
                 <p class="title">Todos os Quizzes</p>
-                
-                <div class="quizz">
-                    <img src="https://wallpaperaccess.com/full/541378.jpg" alt="Hogwarts">
-                    <div id="gradient">
-                        <p class="quizz-title">O quão Potterhead é você?</p>
-                    </div>
-                </div>
-            </div>
+            </ul>
         </div>
 
         <div id="inside-quizz">
@@ -101,6 +94,7 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="scripts/script.js"></script>
 </body>
 </html>
