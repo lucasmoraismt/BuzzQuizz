@@ -22,3 +22,43 @@ function displayQuizzes(response) {
         allQuizzes.innerHTML += quizzHTML;
     }
 }
+
+function getSpecificQuizz(id){
+    const quizzResquest = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/buzzquizz/quizzes/" + id)
+    quizzResquest.then(renderQuizz)
+}
+
+function renderQuizz(response){
+    const quizzArray = response.data
+    console.log(quizzArray)
+    const insideQuizzDiv = document.getElementById("inside-quizz")
+    let newQuizzHTML =`
+        <div class="quizz-title">
+            <img src="${quizzArray.image}" class="top-image">
+            <div>${quizzArray.title}</div>
+        </div>`
+
+    quizzArray.questions.forEach(question => {
+        newQuizzHTML +=`
+        <div class="question-box">
+            <div class="question">${question.title}</div>
+                <div class="options not-clicked">`
+        question.answers.forEach(answer => {
+            let rightOrWrong = "wrong"
+            if(answer.isCorrectAnswer === true){
+                rightOrWrong = "right"
+            }
+            newQuizzHTML +=`
+            <div class="option ${rightOrWrong}}">
+                <img src="${answer.image}">
+                <p>${answer.text}</p>
+            </div>`
+        });
+        newQuizzHTML +=`
+        </div>
+    </div>`
+    });
+
+        
+    insideQuizzDiv.innerHTML = newQuizzHTML;
+}
