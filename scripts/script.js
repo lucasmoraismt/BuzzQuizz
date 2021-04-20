@@ -26,22 +26,22 @@ function displayQuizzes(response) {
     }
 }
 
-function getSpecificQuizz(id) {
-    const quizzResquest = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/buzzquizz/quizzes/" + id)
-    quizzResquest.then(renderQuizz)
-}
+//function getSpecificQuizz(id) {
+//    const quizzResquest = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/buzzquizz/quizzes/" + id)
+//    quizzResquest.then(renderQuizz)
+//}
 
-function renderQuizz(response) {
-    const quizzesArray = response.data
-    console.log(quizzesArray)
+function renderQuizz(id) {
+    const thisQuizzArray = quizzesArray[id - 1]
+    console.log(thisQuizzArray)
     const insideQuizzDiv = document.getElementById("inside-quizz")
     let newQuizzHTML = `
         <div class="quizz-title">
-            <img src="${quizzesArray.image}" class="top-image">
-            <div>${quizzesArray.title}</div>
+            <img src="${thisQuizzArray.image}" class="top-image">
+            <div>${thisQuizzArray.title}</div>
         </div>`
 
-    quizzesArray.questions.forEach(question => {
+    thisQuizzArray.questions.forEach(question => {
         newQuizzHTML += `
         <div class="question-box">
             <div class="question">${question.title}</div>
