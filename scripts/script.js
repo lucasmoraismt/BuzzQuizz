@@ -116,10 +116,14 @@ function clickedAnswer(option){
         console.log("quizzIsOver")
         //displayResult()
     }
-    option.parentNode.classList.remove("not-clicked");
+    const optionsDiv = option.parentNode 
+    optionsDiv.classList.remove("not-clicked");
     option.classList.add("clicked");
-    const options = option.parentNode.querySelectorAll(".option")
-    options.forEach(option => option.removeAttribute("onclick"));
+    const optionsList = optionsDiv.querySelectorAll(".option")
+    optionsList.forEach(option => option.removeAttribute("onclick"));
+    setTimeout(function (){
+        optionsDiv.parentNode.nextElementSibling.scrollIntoView({ behavior: 'smooth', block: 'center'});
+    }, 2000);
 }
 function comparator() {
     return Math.random() - 0.5;
