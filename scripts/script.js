@@ -2,7 +2,7 @@
 let quizzesArray = [];
 getQuizzes();
 
-function getQuizzes () {
+function getQuizzes() {
     let promise = axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v2/buzzquizz/quizzes');
 
     promise.then(displayQuizzes);
@@ -11,9 +11,9 @@ function getQuizzes () {
 function displayQuizzes(response) {
 
     quizzesArray = response.data;
-    for(i = 0; i < response.data.length; i++) {
+    for (i = 0; i < response.data.length; i++) {
 
-        let quizz = response.data[i];
+        let quizz = quizzesArray[i];
         let quizzHTML = `
             <li class="quizz" onclick="openQuizz()">
                 <img src="${quizz.image}">
@@ -26,42 +26,42 @@ function displayQuizzes(response) {
     }
 }
 
-function getSpecificQuizz(id){
+function getSpecificQuizz(id) {
     const quizzResquest = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/buzzquizz/quizzes/" + id)
     quizzResquest.then(renderQuizz)
 }
 
-function renderQuizz(response){
-    const quizzArray = response.data
-    console.log(quizzArray)
+function renderQuizz(response) {
+    const quizzesArray = response.data
+    console.log(quizzesArray)
     const insideQuizzDiv = document.getElementById("inside-quizz")
-    let newQuizzHTML =`
+    let newQuizzHTML = `
         <div class="quizz-title">
-            <img src="${quizzArray.image}" class="top-image">
-            <div>${quizzArray.title}</div>
+            <img src="${quizzesArray.image}" class="top-image">
+            <div>${quizzesArray.title}</div>
         </div>`
 
-    quizzArray.questions.forEach(question => {
-        newQuizzHTML +=`
+    quizzesArray.questions.forEach(question => {
+        newQuizzHTML += `
         <div class="question-box">
             <div class="question">${question.title}</div>
                 <div class="options not-clicked">`
         question.answers.forEach(answer => {
             let rightOrWrong = "wrong"
-            if(answer.isCorrectAnswer === true){
+            if (answer.isCorrectAnswer === true) {
                 rightOrWrong = "right"
             }
-            newQuizzHTML +=`
+            newQuizzHTML += `
             <div class="option ${rightOrWrong}}">
                 <img src="${answer.image}">
                 <p>${answer.text}</p>
             </div>`
         });
-        newQuizzHTML +=`
+        newQuizzHTML += `
         </div>
     </div>`
     });
 
-        
+
     insideQuizzDiv.innerHTML = newQuizzHTML;
 }
