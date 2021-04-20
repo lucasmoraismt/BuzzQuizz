@@ -36,16 +36,17 @@ function openQuizz(id) {
     //essa função vai tratar trocar de página, load e tal, só criei agora pra testar
 }
 function renderQuizz(id) {
-    const thisQuizzArray = quizzesArray[id - 1]
-    console.log(thisQuizzArray)
+    const thisQuizzObject = quizzesArray.find(quizzes => quizzes.id === id);
+    console.log(thisQuizzObject)
+    const questions = thisQuizzObject.questions.sort(comparator)
     const insideQuizzDiv = document.getElementById("inside-quizz")
     let newQuizzHTML = `
         <div class="quizz-title">
-            <img src="${thisQuizzArray.image}" class="top-image">
-            <div>${thisQuizzArray.title}</div>
+            <img src="${thisQuizzObject.image}" class="top-image">
+            <div>${thisQuizzObject.title}</div>
         </div>`
 
-    thisQuizzArray.questions.forEach(question => {
+        questions.forEach(question => {
         newQuizzHTML += `
         <div class="question-box">
             <div class="question">${question.title}</div>
@@ -65,7 +66,8 @@ function renderQuizz(id) {
         </div>
     </div>`
     });
-
-
     insideQuizzDiv.innerHTML = newQuizzHTML;
+}
+function comparator() {
+    return Math.random() - 0.5;
 }
