@@ -78,7 +78,7 @@ function renderQuizz(id) {
                 rightOrWrong = "right"
             }
             newQuizzHTML += `
-            <div class="option ${rightOrWrong}}">
+            <div class="option ${rightOrWrong}">
                 <img src="${answer.image}">
                 <p>${answer.text}</p>
             </div>`
