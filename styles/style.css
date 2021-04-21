@@ -1,6 +1,7 @@
 
 a, div, span, h1, p, li, input, input::placeholder {
     font-family: 'Roboto', sans-serif;
+    word-break: break-all;
 }
 
 body {
@@ -294,11 +295,14 @@ button.back-home{
 
 #create-quizz .quizz-info {
     width: 100%;
+    max-height: 62px;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     background-color: #FFF;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
     padding: 20px 16px 12px;
+    margin-bottom: 25px;
 }
 
 .icon {
@@ -312,7 +316,11 @@ button.back-home{
     color: #000;
 }
 
-.icon.selected ion-icon {
+#create-quizz .quizz-info.selected {
+    max-height: none;
+}
+
+.quizz-info.selected ion-icon {
     color: transparent;
 }
 
