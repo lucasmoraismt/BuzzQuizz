@@ -22,12 +22,12 @@
         <div id="quizzes-list" class="hidden">
             <div class="start-quizz">
                 <p>Você não criou nenhum quizz ainda :(</p>
-                <button onclick="newQuizz()">Criar Quizz</button>
+                <button onclick="toggleScreen('#first-screen')">Criar Quizz</button>
             </div>
             <ul class="your-quizzes">
                 <div>
                     <p class="title">Seus Quizzes</p>
-                    <ion-icon name="add-circle" onclick="newQuizz()"></ion-icon>
+                    <ion-icon name="add-circle" onclick="toggleScreen('#first-screen')"></ion-icon>
                 </div>
             </ul>
 
@@ -50,7 +50,7 @@
                     <input id="questions-quantity" type="text" placeholder="Quantidade de perguntas do quizz">
                     <input id="levels-quantity " type="text" placeholder="Quantidade de níveis do quizz">
                 </div>
-                <button class="red-button" onclick="nextPage()">Prosseguir pra criar perguntas</button>
+                <button class="red-button" onclick="toggleScreen('#second-screen')">Prosseguir pra criar perguntas</button>
             </div>
             <div id="second-screen">
                 <div class="head">
@@ -110,7 +110,7 @@
                     <input class="wrong-answer-3" type="text" placeholder="Resposta incorreta 3">
                     <input class="wrong-answer-3" type="text" placeholder="URL da imagem 3">
                 </div>
-                <button class="red-button" onclick="nextPage()">Prosseguir pra criar níveis</button>
+                <button class="red-button" onclick="toggleScreen('#third-screen')">Prosseguir pra criar níveis</button>
             </div>
 
             <div id="third-screen" >
@@ -147,7 +147,7 @@
                     <input class="level-image" type="text" placeholder="URL da imagem do nível">
                     <input class="description" type="text" placeholder="Descrição do nível">
                 </div>
-                <button class="red-button" onclick="nextPage()">Finalizar Quizz</button>
+                <button class="red-button" onclick="toggleScreen('#fourth-screen')">Finalizar Quizz</button>
             </div>
             <div id="fourth-screen">
                 <div class="head">
@@ -160,7 +160,7 @@
                     </div>
                 </div>
                 <button class="red-button" onclick="openQuizz(19)">Acessar Quizz</button>
-                <button class="back-home" onclick="toggleScreen()">Voltar pra home</button>
+                <button class="back-home" onclick="toggleScreen('.back-home')">Voltar pra home</button>
             </div>
         </div>
     </div>

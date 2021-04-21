@@ -59,22 +59,29 @@ function displayQuizzes(response) {
 
 function openQuizz(id) {
     renderQuizz(id);
-    toggleScreen();
+    toggleScreen("#inside-quizz");
 }
-function toggleScreen(){
-    const insideQuizzDiv = document.getElementById("inside-quizz")
-    const insideQuizzStyle = insideQuizzDiv.style
+let lastPageClass = "body";
+
+function toggleScreen(selector){
+    const openPage = document.querySelector(selector)
     const bodyStyle = document.querySelector("body").style
-    if(insideQuizzStyle.left === "100%" || insideQuizzStyle.left === ""){
-        insideQuizzStyle.left = 0;
-        bodyStyle.overflow = "hidden";
-    } else {
-        insideQuizzDiv.style.left = "100%";
+    const lastPage = document.querySelector(lastPageClass)
+    if(selector === ".back-home"){
+        lastPage.style.left = "100%";
         bodyStyle.overflow = "scroll";
         setTimeout(function(){
-            insideQuizzDiv.querySelector(".quizz-title").scrollIntoView({block: "center"});
+            lastPage.scrollTo({top: 0});
+        }, 500)
+    } else {
+        openPage.style.left = 0;
+        bodyStyle.overflow = "hidden";
+        setTimeout(function(){
+            lastPage.scrollTo({top: 0});
+            lastPage.style.left = "100%"
         }, 500)
     }
+    lastPageClass = selector
     //document.querySelector("#app").scrollTo({left: (window.innerWidth * 2), behavior: 'smooth'});
     //document.getElementById("app").classList.toggle("right")
 }
@@ -118,7 +125,7 @@ function renderQuizz(id) {
     currentQuizzHTML +=`
     <div class="level hidden"></div>
     <button class="red-button" onclick="restartQuizz(${id})">Reiniciar Quizz</button>
-    <button class="back-home" onclick="toggleScreen()">Voltar pra home</button>
+    <button class="back-home" onclick="toggleScreen('.back-home')">Voltar pra home</button>
     `
     insideQuizzDiv.innerHTML = currentQuizzHTML;
 }
@@ -131,7 +138,6 @@ function clickedAnswer(option){
     }
     const quizzIsOver = (currentQuizzObject.rights + currentQuizzObject.wrongs === currentQuizzObject.questions.length)
     if(quizzIsOver){
-        console.log("quizzIsOver")
         displayLevel()
     }
     const optionsDiv = option.parentNode 
