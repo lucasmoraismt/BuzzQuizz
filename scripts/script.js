@@ -41,7 +41,7 @@ function displayQuizzes(response) {
         let allQuizzes = document.querySelector(".all-quizzes");
         let yourQuizzes = document.querySelector(".your-quizzes");
 
-        if(localStorageArray.includes(quizz.id)) {
+        if(localStorageArray.includes(`${quizz.id}`)) {
             yourQuizzes.innerHTML += quizzHTML;
         } else {
             allQuizzes.innerHTML += quizzHTML;
