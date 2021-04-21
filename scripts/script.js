@@ -27,6 +27,8 @@ function getQuizzes() {
 
 function displayQuizzes(response) {
 
+    let allQuizzes = document.querySelector(".all-quizzes");
+    let yourQuizzes = document.querySelector(".your-quizzes");
     quizzesArray = response.data;
     for (i = 0; i < response.data.length; i++) {
 
@@ -38,14 +40,20 @@ function displayQuizzes(response) {
                     <p class="quizz-title">${quizz.title}</p>
                 </div>
             </li>`
-        let allQuizzes = document.querySelector(".all-quizzes");
-        let yourQuizzes = document.querySelector(".your-quizzes");
 
         if(localStorageArray.includes(`${quizz.id}`)) {
             yourQuizzes.innerHTML += quizzHTML;
         } else {
             allQuizzes.innerHTML += quizzHTML;
         }
+    }
+
+    let yourHeight = yourQuizzes.offsetHeight;
+    if(yourHeight > 100) {
+        let startQuizz = document.querySelector(".start-quizz");
+        startQuizz.classList.add("hidden");
+    } else {
+        yourQuizzes.classList.add("hidden");
     }
 }
 
@@ -54,7 +62,7 @@ function openQuizz(id) {
     toggleScreen();
 }
 function toggleScreen(){
-    const insideQuizzDiv = document.querySelector("#inside-quizz")
+    const insideQuizzDiv = document.getElementById("inside-quizz")
     const insideQuizzStyle = insideQuizzDiv.style
     const bodyStyle = document.querySelector("body").style
     if(insideQuizzStyle.left === "100%" || insideQuizzStyle.left === ""){
@@ -72,7 +80,7 @@ function toggleScreen(){
 }
 function restartQuizz(id){
     renderQuizz(id);
-    document.querySelector("#inside-quizz").scrollTo({top: 0, behavior: 'smooth'});
+    document.getElementById("inside-quizz").scrollTo({top: 0, behavior: 'smooth'});
 }
 function renderQuizz(id) {
     currentQuizzObject = quizzesArray.find(quizz => quizz.id === id);
