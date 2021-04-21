@@ -165,3 +165,9 @@ function displayLevel(){
 function comparator() {
     return Math.random() - 0.5;
 }
+
+function openOption(option) {
+    let currentSelected = option.parentNode.querySelector(".quizz-info.selected");
+    currentSelected.classList.remove("selected");
+    option.classList.add("selected");
+}
