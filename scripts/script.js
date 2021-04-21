@@ -58,6 +58,10 @@ function openQuizz(id) {
     renderQuizz(id);
     //essa função vai tratar trocar de página, load e tal, só criei agora pra testar
 }
+function restartQuizz(id){
+    renderQuizz(id);
+    document.querySelector(".top-image").scrollIntoView({ behavior: 'smooth', block: 'center'});
+}
 function renderQuizz(id) {
     currentQuizzObject = quizzesArray.find(quizz => quizz.id === id);
     currentQuizzObject.rights = 0;
@@ -93,14 +97,9 @@ function renderQuizz(id) {
     `
     });
     currentQuizzHTML +=`
-    <div class="level">
-    <div>x% de acerto: Muito pouco</div>
-        <img src="https://p.favim.com/orig/2018/09/09/sad-friends-sitcom-Favim.com-6248241.jpg" alt="">
-        <span>Parece que a pandemia não te afetou tanto. Depois de um ano já deveria saber pelo menos metade das falas de trás pra frente!</span>
-</div>
-<button class="restart-quizz">Reiniciar Quizz</button>
-<button class="back-home">Voltar pra home</button>
-</div>
+    <div class="level hidden"></div>
+    <button class="restart-quizz" onclick="restartQuizz(${id})">Reiniciar Quizz</button>
+    <button class="back-home">Voltar pra home</button>
     `
     insideQuizzDiv.innerHTML = currentQuizzHTML;
 }
@@ -141,6 +140,7 @@ function displayLevel(){
     <img src="${levelObject.image}">
     <span>${levelObject.text}</span>`
     levelDiv.innerHTML = levelHTML;
+    levelDiv.classList.remove("hidden")
 }
 
 function comparator() {
