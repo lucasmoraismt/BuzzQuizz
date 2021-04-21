@@ -19,7 +19,7 @@
         <h1>BuzzQuizz</h1>
     </div>
     <div id="app">
-        <div id="quizzes-list" class="hidden">
+        <div id="quizzes-list">
             <div class="start-quizz">
                 <p>Você não criou nenhum quizz ainda :(</p>
                 <button onclick="toggleScreen('#first-screen')">Criar Quizz</button>
@@ -111,8 +111,8 @@
                     <input class="wrong-answer-3" type="text" placeholder="URL da imagem 3">
                 </div>
                 <button class="red-button" onclick="toggleScreen('#third-screen')">Prosseguir pra criar níveis</button>
+                <div class="bottom-padding">&nbsp;</div>
             </div>
-
             <div id="third-screen" >
                 <div class="head">
                     <p class="title">Agora, decida os níveis</p>
@@ -148,6 +148,7 @@
                     <input class="description" type="text" placeholder="Descrição do nível">
                 </div>
                 <button class="red-button" onclick="toggleScreen('#fourth-screen')">Finalizar Quizz</button>
+                <div class="bottom-padding">&nbsp;</div>
             </div>
             <div id="fourth-screen">
                 <div class="head">

@@ -47,11 +47,11 @@ function displayQuizzes(response) {
             allQuizzes.innerHTML += quizzHTML;
         }
     }
-
-    let yourHeight = yourQuizzes.offsetHeight;
-    if(yourHeight > 100) {
+    const youHaveQuizzes = document.querySelector(".your-quizzes .quizz")
+    if(youHaveQuizzes !== null) {
         let startQuizz = document.querySelector(".start-quizz");
         startQuizz.classList.add("hidden");
+        yourQuizzes.style.margin = "0px 0px 30px 0px"
     } else {
         yourQuizzes.classList.add("hidden");
     }
@@ -61,12 +61,12 @@ function openQuizz(id) {
     renderQuizz(id);
     toggleScreen("#inside-quizz");
 }
-let lastPageClass = "body";
+let lastPageSelector = "body";
 
 function toggleScreen(selector){
     const openPage = document.querySelector(selector)
     const bodyStyle = document.querySelector("body").style
-    const lastPage = document.querySelector(lastPageClass)
+    const lastPage = document.querySelector(lastPageSelector)
     if(selector === ".back-home"){
         lastPage.style.left = "100%";
         bodyStyle.overflow = "scroll";
@@ -81,7 +81,7 @@ function toggleScreen(selector){
             lastPage.style.left = "100%"
         }, 500)
     }
-    lastPageClass = selector
+    lastPageSelector = selector
     //document.querySelector("#app").scrollTo({left: (window.innerWidth * 2), behavior: 'smooth'});
     //document.getElementById("app").classList.toggle("right")
 }
@@ -175,5 +175,6 @@ function comparator() {
 function openOption(option) {
     let currentSelected = option.parentNode.querySelector(".quizz-info.selected");
     currentSelected.classList.remove("selected");
+    option.previousElementSibling.scrollIntoView({ behavior: 'smooth', block: 'start'});
     option.classList.add("selected");
 }
