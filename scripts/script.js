@@ -73,7 +73,7 @@ function renderQuizz(id) {
         questions.forEach(question => {
         currentQuizzHTML += `
         <div class="question-box">
-            <div class="question">${question.title}</div>
+            <div class="question" style="background-color:${question.color};">${question.title}</div>
                 <div class="options not-clicked">`
         const answers = question.answers.sort(comparator)
         answers.forEach(answer => {
@@ -127,7 +127,7 @@ function clickedAnswer(option){
 }
 function displayLevel(){
     const levelDiv = document.querySelector("#inside-quizz .level")
-    const rightsPercent = ((currentQuizzObject.rights / currentQuizzObject.questions.length) * 100)
+    const rightsPercent = Math.ceil((currentQuizzObject.rights / currentQuizzObject.questions.length) * 100)
     const levelObject = {}
     currentQuizzObject.levels.forEach(level => {
         if(rightsPercent >= level.minValue){
