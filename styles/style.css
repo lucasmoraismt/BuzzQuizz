@@ -261,7 +261,7 @@ button.back-home{
     width: 100vw;
 }
 
-#first-screen {
+#first-screen, #second-screen, #third-screen {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -279,10 +279,28 @@ button.back-home{
     width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
     background-color: #FFF;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
     padding: 20px 16px 12px;
+}
+
+.icon {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.icon ion-icon {
+    font-size: 24px;
+    color: #000;
+}
+
+.icon.selected ion-icon {
+    color: transparent;
+}
+
+.quizz-info .title {
+    margin: 10px 0px;
 }
 
 #create-quizz input {
