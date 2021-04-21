@@ -240,13 +240,13 @@ body {
     width: 100%;
     margin: 9px 0px;
 }
-#inside-quizz button{
+.red-button, .back-home {
     border: none;
     font-size: 18px;
     min-width: 220px;
     min-height: 44px;
 }
-button.restart-quizz{
+button.red-button{
     background-color: #EC362D;
     border-radius: 15px;
     color: #FFF5F4;
@@ -262,10 +262,14 @@ button.back-home{
     width: 100vw;
 }
 
-#first-screen, #second-screen, #third-screen {
+#first-screen, #second-screen, #third-screen, #fourth-screen {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+#fourth-screen .quizz{
+    width: 90vw;
+    margin-bottom: 25px;
 }
 
 .head {
@@ -321,18 +325,6 @@ button.back-home{
     line-height: 22px;
     color: #BABABA;
     vertical-align: middle; 
-}
-
-#create-quizz button {
-    width: 85%;
-    height: 55px;
-    background: #EC362D;
-    border: none;
-    border-radius: 15px;
-    font-size: 18px;
-    line-height: 21px;
-    color: #FFF5F4;
-    margin: 30px 0px;
 }
 
 .hidden {

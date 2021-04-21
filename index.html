@@ -19,7 +19,7 @@
         <h1>BuzzQuizz</h1>
     </div>
     <div id="app">
-        <div id="quizzes-list" class="hidden">
+        <div id="quizzes-list" class="">
             <div class="start-quizz">
                 <p>Você não criou nenhum quizz ainda :(</p>
                 <button onclick="newQuizz()">Criar Quizz</button>
@@ -51,7 +51,7 @@
                     <input id="questions-quantity" type="text" placeholder="Quantidade de perguntas do quizz">
                     <input id="levels-quantity " type="text" placeholder="Quantidade de níveis do quizz">
                 </div>
-                <button onclick="nextPage()">Prosseguir pra criar perguntas</button>
+                <button class="red-button" onclick="nextPage()">Prosseguir pra criar perguntas</button>
             </div>
             <div id="second-screen" >
                 <div class="head">
@@ -111,7 +111,7 @@
                     <input class="wrong-answer-3" type="text" placeholder="Resposta incorreta 3">
                     <input class="wrong-answer-3" type="text" placeholder="URL da imagem 3">
                 </div>
-                <button onclick="nextPage()">Prosseguir pra criar níveis</button>
+                <button class="red-button" onclick="nextPage()">Prosseguir pra criar níveis</button>
             </div>
 
             <div id="third-screen" >
@@ -148,7 +148,20 @@
                     <input class="level-image" type="text" placeholder="URL da imagem do nível">
                     <input class="description" type="text" placeholder="Descrição do nível">
                 </div>
-                <button onclick="nextPage()">Finalizar Quizz</button>
+                <button class="red-button" onclick="nextPage()">Finalizar Quizz</button>
+            </div>
+            <div id="fourth-screen">
+                <div class="head">
+                    <p class="title">Seu quizz está pronto!</p>
+                </div>
+                <div class="quizz" onclick="openQuizz(19)">
+                    <img src="https://media.gazetadopovo.com.br/2019/09/04114525/clown-world-660x372.jpg">
+                    <div id="gradient">
+                        <p class="quizz-title">Best Javascript Meme</p>
+                    </div>
+                </div>
+                <button class="red-button" onclick="openQuizz(19)">Acessar Quizz</button>
+                <button class="back-home" onclick="toggleScreen()">Voltar pra home</button>
             </div>
         </div>
     </div>

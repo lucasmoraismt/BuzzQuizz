@@ -117,7 +117,7 @@ function renderQuizz(id) {
     });
     currentQuizzHTML +=`
     <div class="level hidden"></div>
-    <button class="restart-quizz" onclick="restartQuizz(${id})">Reiniciar Quizz</button>
+    <button class="red-button" onclick="restartQuizz(${id})">Reiniciar Quizz</button>
     <button class="back-home" onclick="toggleScreen()">Voltar pra home</button>
     `
     insideQuizzDiv.innerHTML = currentQuizzHTML;
