@@ -1,6 +1,7 @@
 
 let quizzesArray = [];
 let localStorageArray = [];
+let currentQuizzObject = {};
 getLocalStorage();
 getQuizzes();
 
@@ -48,46 +49,111 @@ function displayQuizzes(response) {
     }
 }
 
-//function getSpecificQuizz(id) {
-//    const quizzResquest = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/buzzquizz/quizzes/" + id)
-//    quizzResquest.then(renderQuizz)
-//}
-
 function openQuizz(id) {
     renderQuizz(id);
-    //essa função vai tratar trocar de página, load e tal, só criei agora pra testar
+    toggleScreen();
+}
+function toggleScreen(){
+    const insideQuizzDiv = document.querySelector("#inside-quizz")
+    const insideQuizzStyle = insideQuizzDiv.style
+    const bodyStyle = document.querySelector("body").style
+    if(insideQuizzStyle.left === "100%" || insideQuizzStyle.left === ""){
+        insideQuizzStyle.left = 0;
+        bodyStyle.overflow = "hidden";
+    } else {
+        insideQuizzDiv.style.left = "100%";
+        bodyStyle.overflow = "scroll";
+        setTimeout(function(){
+            insideQuizzDiv.querySelector(".quizz-title").scrollIntoView({block: "center"});
+        }, 500)
+    }
+    //document.querySelector("#app").scrollTo({left: (window.innerWidth * 2), behavior: 'smooth'});
+    //document.getElementById("app").classList.toggle("right")
+}
+function restartQuizz(id){
+    renderQuizz(id);
+    document.querySelector("#inside-quizz").scrollTo({top: 0, behavior: 'smooth'});
 }
 function renderQuizz(id) {
-    const thisQuizzArray = quizzesArray[id - 1]
-    console.log(thisQuizzArray)
+    currentQuizzObject = quizzesArray.find(quizz => quizz.id === id);
+    currentQuizzObject.rights = 0;
+    currentQuizzObject.wrongs = 0;
+    const questions = currentQuizzObject.questions.sort(comparator)
     const insideQuizzDiv = document.getElementById("inside-quizz")
-    let newQuizzHTML = `
-        <div class="quizz-title">
-            <img src="${thisQuizzArray.image}" class="top-image">
-            <div>${thisQuizzArray.title}</div>
+    let currentQuizzHTML = `
+        <div class="quizz-title" style="background-image: url(${currentQuizzObject.image});">
+            <div>${currentQuizzObject.title}</div>
         </div>`
 
-    thisQuizzArray.questions.forEach(question => {
-        newQuizzHTML += `
+        questions.forEach(question => {
+        currentQuizzHTML += `
         <div class="question-box">
-            <div class="question">${question.title}</div>
+            <div class="question" style="background-color:${question.color};">${question.title}</div>
                 <div class="options not-clicked">`
-        question.answers.forEach(answer => {
+        const answers = question.answers.sort(comparator)
+        answers.forEach(answer => {
             let rightOrWrong = "wrong"
             if (answer.isCorrectAnswer === true) {
                 rightOrWrong = "right"
             }
-            newQuizzHTML += `
-            <div class="option ${rightOrWrong}">
-                <img src="${answer.image}">
+            currentQuizzHTML += `
+            <div class="option ${rightOrWrong}" onclick="clickedAnswer(this)">
+                <div class="image" style="background-image: url(${answer.image})"></div>
                 <p>${answer.text}</p>
             </div>`
         });
-        newQuizzHTML += `
+        currentQuizzHTML += `
         </div>
-    </div>`
+    </div>
+    `
     });
+    currentQuizzHTML +=`
+    <div class="level hidden"></div>
+    <button class="restart-quizz" onclick="restartQuizz(${id})">Reiniciar Quizz</button>
+    <button class="back-home" onclick="toggleScreen()">Voltar pra home</button>
+    `
+    insideQuizzDiv.innerHTML = currentQuizzHTML;
+}
+function clickedAnswer(option){
+    const rightOption = option.classList.contains("right")
+    if(rightOption){
+        currentQuizzObject.rights += 1;
+    } else {
+        currentQuizzObject.wrongs += 1;
+    }
+    const quizzIsOver = (currentQuizzObject.rights + currentQuizzObject.wrongs === currentQuizzObject.questions.length)
+    if(quizzIsOver){
+        console.log("quizzIsOver")
+        displayLevel()
+    }
+    const optionsDiv = option.parentNode 
+    optionsDiv.classList.remove("not-clicked");
+    option.classList.add("clicked");
+    const optionsList = optionsDiv.querySelectorAll(".option")
+    optionsList.forEach(option => option.removeAttribute("onclick"));
+    setTimeout(function (){
+        optionsDiv.parentNode.nextElementSibling.scrollIntoView({ behavior: 'smooth', block: 'center'});
+    }, 2000);
+}
+function displayLevel(){
+    const levelDiv = document.querySelector("#inside-quizz .level")
+    const rightsPercent = Math.ceil((currentQuizzObject.rights / currentQuizzObject.questions.length) * 100)
+    const levelObject = {}
+    currentQuizzObject.levels.forEach(level => {
+        if(rightsPercent >= level.minValue){
+            levelObject.title = level.title;
+            levelObject.image = level.image;
+            levelObject.text = level.text;
+        }
+    })
+    const levelHTML=`
+    <div>${rightsPercent}% de acerto: ${levelObject.title}</div>
+    <img src="${levelObject.image}">
+    <span>${levelObject.text}</span>`
+    levelDiv.innerHTML = levelHTML;
+    levelDiv.classList.remove("hidden")
+}
 
-
-    insideQuizzDiv.innerHTML = newQuizzHTML;
+function comparator() {
+    return Math.random() - 0.5;
 }
