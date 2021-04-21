@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
     <title>BuzzQuizz</title>
 
     <link rel='shortcut icon' type='image/x-icon' href='media/favicon.ico' />
@@ -14,12 +14,11 @@
 
 </head>
 <body>
+
     <div class="top">
         <h1>BuzzQuizz</h1>
     </div>
-
-    <div class="app">
-
+    <div id="app">
         <div id="quizzes-list" class="">
             <div class="start-quizz">
                 <p>Você não criou nenhum quizz ainda :(</p>
@@ -38,63 +37,10 @@
         </div>
 
         <div id="inside-quizz">
-            <div class="quizz-title">
-                <img src="https://img.quizur.com/f/img60229135637eb5.97078183.jpg?lastEdited=1612878137" class="top-image">
-                <div>O quanto você conhece de Friends?</div>
-            </div>
-            <div class="question-box">
-                <div class="question">Em que episódio ocorre o casamento de Monica e Chandler?</div>
-                <div class="options ">
-                    <div class="option wrong">
-                        <img src="https://s3cf.recapguide.com:444/img/tv/24/7x24/Friends-Season-7-Episode-24-2-e9d3.jpg" alt="">
-                        <p>S07E24</p>
-                    </div>
-                    <div class="option wrong">
-                        <img src="https://s3cf.recapguide.com:444/img/tv/24/7x24/Friends-Season-7-Episode-24-2-e9d3.jpg" alt="">
-                        <p>S07E24</p>
-                    </div>
-                    <div class="option wrong">
-                        <img src="https://s3cf.recapguide.com:444/img/tv/24/7x24/Friends-Season-7-Episode-24-2-e9d3.jpg" alt="">
-                        <p>S07E24</p>
-                    </div>
-                    <div class="option right">
-                        <img src="https://s3cf.recapguide.com:444/img/tv/24/7x24/Friends-Season-7-Episode-24-2-e9d3.jpg" alt="">
-                        <p>S07E24</p>
-                    </div>
-                </div>
-            </div>
-            <div class="question-box">
-                <div class="question">Em que episódio ocorre o casamento de Monica e Chandler?</div>
-                <div class="options not-clicked">
-                    <div class="option wrong">
-                        <img src="https://s3cf.recapguide.com:444/img/tv/24/7x24/Friends-Season-7-Episode-24-2-e9d3.jpg" alt="">
-                        <p>S07E24</p>
-                    </div>
-                    <div class="option wrong">
-                        <img src="https://s3cf.recapguide.com:444/img/tv/24/7x24/Friends-Season-7-Episode-24-2-e9d3.jpg" alt="">
-                        <p>S07E24</p>
-                    </div>
-                    <div class="option wrong">
-                        <img src="https://s3cf.recapguide.com:444/img/tv/24/7x24/Friends-Season-7-Episode-24-2-e9d3.jpg" alt="">
-                        <p>S07E24</p>
-                    </div>
-                    <div class="option right">
-                        <img src="https://s3cf.recapguide.com:444/img/tv/24/7x24/Friends-Season-7-Episode-24-2-e9d3.jpg" alt="">
-                        <p>S07E24</p>
-                    </div>
-                </div>
-            </div>
-            <div class="level">
-                    <div>x% de acerto: Muito pouco</div>
-                        <img src="https://p.favim.com/orig/2018/09/09/sad-friends-sitcom-Favim.com-6248241.jpg" alt="">
-                        <span>Parece que a pandemia não te afetou tanto. Depois de um ano já deveria saber pelo menos metade das falas de trás pra frente!</span>
-            </div>
-                <button class="restart-quizz">Reiniciar Quizz</button>
-                <button class="back-home">Voltar pra home</button>
         </div>
 
 
-        <div id="create-quizz">
+        <div id="create-quizz" class="hidden">
             <div id="first-screen">
                 <div class="head">
                     <p class="title">Comece pelo começo</p>

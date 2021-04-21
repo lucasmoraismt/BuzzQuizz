@@ -49,18 +49,30 @@ function displayQuizzes(response) {
     }
 }
 
-//function getSpecificQuizz(id) {
-//    const quizzResquest = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/buzzquizz/quizzes/" + id)
-//    quizzResquest.then(renderQuizz)
-//}
-
 function openQuizz(id) {
     renderQuizz(id);
-    //essa função vai tratar trocar de página, load e tal, só criei agora pra testar
+    toggleScreen();
+}
+function toggleScreen(){
+    const insideQuizzDiv = document.querySelector("#inside-quizz")
+    const insideQuizzStyle = insideQuizzDiv.style
+    const bodyStyle = document.querySelector("body").style
+    if(insideQuizzStyle.left === "100%" || insideQuizzStyle.left === ""){
+        insideQuizzStyle.left = 0;
+        bodyStyle.overflow = "hidden";
+    } else {
+        insideQuizzDiv.style.left = "100%";
+        bodyStyle.overflow = "scroll";
+        setTimeout(function(){
+            insideQuizzDiv.querySelector(".quizz-title").scrollIntoView({block: "center"});
+        }, 500)
+    }
+    //document.querySelector("#app").scrollTo({left: (window.innerWidth * 2), behavior: 'smooth'});
+    //document.getElementById("app").classList.toggle("right")
 }
 function restartQuizz(id){
     renderQuizz(id);
-    document.querySelector(".top-image").scrollIntoView({ behavior: 'smooth', block: 'center'});
+    document.querySelector("#inside-quizz").scrollTo({top: 0, behavior: 'smooth'});
 }
 function renderQuizz(id) {
     currentQuizzObject = quizzesArray.find(quizz => quizz.id === id);
@@ -69,8 +81,7 @@ function renderQuizz(id) {
     const questions = currentQuizzObject.questions.sort(comparator)
     const insideQuizzDiv = document.getElementById("inside-quizz")
     let currentQuizzHTML = `
-        <div class="quizz-title">
-            <img src="${currentQuizzObject.image}" class="top-image">
+        <div class="quizz-title" style="background-image: url(${currentQuizzObject.image});">
             <div>${currentQuizzObject.title}</div>
         </div>`
 
@@ -87,7 +98,7 @@ function renderQuizz(id) {
             }
             currentQuizzHTML += `
             <div class="option ${rightOrWrong}" onclick="clickedAnswer(this)">
-                <img src="${answer.image}">
+                <div class="image" style="background-image: url(${answer.image})"></div>
                 <p>${answer.text}</p>
             </div>`
         });
@@ -99,7 +110,7 @@ function renderQuizz(id) {
     currentQuizzHTML +=`
     <div class="level hidden"></div>
     <button class="restart-quizz" onclick="restartQuizz(${id})">Reiniciar Quizz</button>
-    <button class="back-home">Voltar pra home</button>
+    <button class="back-home" onclick="toggleScreen()">Voltar pra home</button>
     `
     insideQuizzDiv.innerHTML = currentQuizzHTML;
 }

@@ -17,7 +17,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1;
+    z-index: 2;
 }
 
 .top h1 {
@@ -27,21 +27,17 @@ body {
     color: #FFF;
 }
 
-.app {
-    width: 100vw;
-    height: calc(100vh - 70px);
-    display: flex;
-    flex-direction: column;
-    margin-top: 70px;
-    overflow-y: auto;
-
+#app {
+    position: relative;
+    overflow-x: hidden;
 }
 #quizzes-list {
-    padding-top: 30px;
-    margin: 0px 18px;
+    overflow-x: hidden;
+    padding: 100px 18px 30px;
+    overscroll-behavior: contain;
+    
 }
 .start-quizz {
-    width: 100%;
     height: 180px;
     display: flex;
     flex-direction: column;
@@ -53,7 +49,6 @@ body {
 
 .start-quizz p {
     text-align: center;
-    width: 75%;
     font-size: 20px;
     line-height: 23px;
     color: #B9B9B9;
@@ -127,23 +122,32 @@ body {
     color: #FFF;
 }
 #inside-quizz {
+    position: fixed;
     width: 100%;
-    display: none;
+    height: 100%;
+    left: 100%;
+    top: 0px;
+    padding-top: 70px;
+    overflow-y: scroll;
+    overflow-x: hidden;
     display: flex;
     flex-direction: column;
     align-items: center;
     font-weight: bold;
+    background-color: #FAFAFA;
     transition: .5s;
+    overscroll-behavior: contain;
 }
 #inside-quizz .quizz-title {
     position: relative;
     width: 100%;
     height: 142px;
     margin-bottom: 24px;
-    overflow: hidden;
-}
-#inside-quizz .quizz-title img{
-    width: 100%;
+    flex-shrink: 0;
+    overflow-y: hidden;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
 }
 #inside-quizz .quizz-title div{
     position: absolute;
@@ -184,7 +188,7 @@ body {
     padding-top: 10px;
 }
 #inside-quizz .option{
-    max-width: 49%;     
+    width: 44vw;
 }
 #inside-quizz .options.not-clicked{
     color: #000000;
@@ -200,8 +204,12 @@ body {
 #inside-quizz .options:not(.not-clicked) .option.clicked{
     opacity: 1;
 }
-#inside-quizz .option img{
-    max-width: 100%;
+#inside-quizz .option .image{
+    width: 100%;
+    height: calc(45vw * .6);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
 }
 #inside-quizz .option p{
     margin: 5px 0px 12px 0px;
