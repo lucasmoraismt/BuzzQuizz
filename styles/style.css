@@ -1,5 +1,5 @@
 
-a, div, span, h1, p, li, input, input::placeholder {
+a, div, span, h1, p, li, input, input::placeholder, textarea, textarea::placeholder {
     font-family: 'Roboto', sans-serif;
     word-break: break-all;
 }
@@ -249,8 +249,9 @@ body {
 .red-button, .back-home {
     border: none;
     font-size: 18px;
+    padding: 0px 20px;
     min-width: 220px;
-    min-height: 44px;
+    min-height: 54px;
 }
 button.red-button{
     background-color: #EC362D;
@@ -362,6 +363,15 @@ button.back-home{
     font-size: 19px;
     vertical-align: middle; 
 }
+#create-quizz textarea {
+    margin-bottom: 10px;
+    width: 100%;
+    height: 180px;
+    border: 1px solid #D1D1D1;
+    border-radius: 5px;
+    padding: 0px 15px;
+    font-size: 19px;
+}
 
 #create-quizz input::placeholder {
     font-style: italic;
@@ -370,9 +380,12 @@ button.back-home{
     color: #BABABA;
     vertical-align: middle; 
 }
-
-#create-quizz input.description {
-    height: 180px;
+#create-quizz textarea::placeholder {
+    font-style: italic;
+    font-size: 19px;
+    line-height: 22px;
+    color: #BABABA;
+    vertical-align: middle; 
 }
 
 .hidden {

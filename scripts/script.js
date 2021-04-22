@@ -211,7 +211,7 @@ function validateFirstPage(){
         renderScreen(2, questionsQuantity, levelsQuantity);
     } else{
         let alertMessage = '';
-        errorMessages.forEach(msg => alertMessage += msg + " ");
+        errorMessages.forEach(msg => alertMessage += msg + "\n");
         alert(alertMessage);
     }
 };
@@ -270,7 +270,7 @@ function validateSecondPage(){
         renderScreen(3)
     } else {
         let alertMessage = '';
-        filteredErrors.forEach(msg => alertMessage += msg + " ");
+        filteredErrors.forEach(msg => alertMessage += msg + "\n");
         alert(alertMessage);
     }
 }
@@ -311,7 +311,7 @@ function validateThirdPage() {
         promise.then(validateFourthPage);
     } else {
         let alertMessage = '';
-        errorMessages.forEach(msg => alertMessage += msg + " ");
+        errorMessages.forEach(msg => alertMessage += msg + "\n");
         alert(alertMessage);
     }
 }
@@ -417,7 +417,7 @@ function renderScreen(n, questions, levels){
                         <input class="level-title" type="text" placeholder="Título do nível">
                         <input class="minimum-rights" type="text" placeholder="% de acerto mínima">
                         <input class="level-image" type="text" placeholder="URL da imagem do nível">
-                        <input class="description" type="text" placeholder="Descrição do nível">
+                        <textarea class="description" placeholder="Descrição do nível"></textarea>
                     </div>`;
                 thirdScreen.innerHTML += newLevel;
             }
