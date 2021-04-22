@@ -210,7 +210,9 @@ function validateFirstPage(){
         creatingQuizzObject["image"] = quizzBanner;
         renderScreen(2, questionsQuantity, levelsQuantity);
     } else{
-        errorMessages.forEach(msg => console.log(msg));
+        let alertMessage = '';
+        errorMessages.forEach(msg => alertMessage += msg + " ");
+        alert(alertMessage);
     }
 };
 function validateSecondPage(){
@@ -265,10 +267,11 @@ function validateSecondPage(){
     }
     if(filteredErrors.length === 0){
         creatingQuizzObject["questions"] = questionsArray;
-        console.log(creatingQuizzObject);
         renderScreen(3)
     } else {
-        filteredErrors.forEach(msg => console.log(msg));
+        let alertMessage = '';
+        filteredErrors.forEach(msg => alertMessage += msg + " ");
+        alert(alertMessage);
     }
 }
 function validateThirdPage() {
@@ -307,7 +310,9 @@ function validateThirdPage() {
 
         promise.then(validateFourthPage);
     } else {
-        errorMessages.forEach(msg => console.log(msg));
+        let alertMessage = '';
+        errorMessages.forEach(msg => alertMessage += msg + " ");
+        alert(alertMessage);
     }
 }
 function validateFourthPage(response){
