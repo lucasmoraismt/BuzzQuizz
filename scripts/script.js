@@ -209,9 +209,8 @@ function validateSecondPage(){
     let filteredErrors = [];
     let unfilteredValidWrongs = [];
     let filteredValidWrongs = [];
-    let iterations = 0;
     const questions = document.querySelectorAll("#second-screen .quizz-info");
-    questions.forEach(question => {
+    questions.forEach((question, iterations) => {
         const questionText = question.querySelector(".question-text").value;
         const questionColor = question.querySelector(".question-color").value;
         const rightAnswer = question.querySelector(".right-answer").value;
@@ -240,7 +239,6 @@ function validateSecondPage(){
                 unfilteredErrors.push("Insira a resposta incorreta com uma imagem.");   
             }
         }
-        iterations++
         //push to object
     })
     filteredErrors = sortUnique(unfilteredErrors);
