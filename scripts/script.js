@@ -2,6 +2,7 @@
 let quizzesArray = [];
 let localStorageArray = [];
 let currentQuizzObject = {};
+let creatingQuizzObject = {};
 getLocalStorage();
 getQuizzes();
 
@@ -198,13 +199,15 @@ function validateFirstPage(){
         errorMessages.push("Mínimo de 2 níveis.");   
     }
     if(errorMessages.length === 0){
-        //push to object
+        creatingQuizzObject["title"] = quizzTitle;
+        creatingQuizzObject["image"] = quizzBanner;
         renderScreen(2, questionsQuantity, levelsQuantity);
     } else{
         errorMessages.forEach(msg => console.log(msg));
     }
 };
 function validateSecondPage(){
+    let questionsArray = [];
     let unfilteredErrors = [];
     let filteredErrors = [];
     let unfilteredValidWrongs = [];
@@ -212,6 +215,8 @@ function validateSecondPage(){
     let iterations = 0;
     const questions = document.querySelectorAll("#second-screen .quizz-info");
     questions.forEach(question => {
+        let questionObject = {};
+        let answerArray = [];
         const questionText = question.querySelector(".question-text").value;
         const questionColor = question.querySelector(".question-color").value;
         const rightAnswer = question.querySelector(".right-answer").value;
@@ -220,7 +225,7 @@ function validateSecondPage(){
         const wrongImageArray = question.querySelectorAll(".wrong-image");
         if(questionText.length < 20){
             unfilteredErrors.push("A pergunta deve ter no mínimo 20 caracteres");
-        }
+        }       
         if(!isHex(questionColor)){
             unfilteredErrors.push("A cor deve estar em hexadecimal");
         }
@@ -230,19 +235,23 @@ function validateSecondPage(){
         if(!isURL(rightImage)){
             unfilteredErrors.push("Insira uma URL válida.");   
         }
+        questionObject["title"] = questionText;
+        questionObject["color"] = questionColor;
+        answerArray.push({text: rightAnswer, image: rightImage, isCorrectAnswer: true});
         for (let i = 0; i < wrongAnswerArray.length; i++) {
             const text = wrongAnswerArray[i].value;
             const img = wrongImageArray[i].value;
             if(text !== "" && isURL(img)){
                 unfilteredValidWrongs.push(iterations)
-                //push to object
+                answerArray.push({text: text, image: img, isCorrectAnswer: false});
             } else if(text === "" || !isURL(img) ){
                 unfilteredErrors.push("Insira a resposta incorreta com uma imagem.");   
             }
         }
+        questionObject["answers"] = answerArray;
         iterations++
-        //push to object
-    })
+        questionsArray.push(questionObject);
+    });
     filteredErrors = sortUnique(unfilteredErrors);
     filteredValidWrongs = sortUnique(unfilteredValidWrongs);
     if(filteredValidWrongs.length === 3){
@@ -250,14 +259,42 @@ function validateSecondPage(){
         filteredErrors = removeFromArray(filteredErrors, item)
     }
     if(filteredErrors.length === 0){
-        //push to object
+        creatingQuizzObject["questions"] = questionsArray;
+        console.log(creatingQuizzObject);
         renderScreen(3)
     } else {
         filteredErrors.forEach(msg => console.log(msg));
     }
 }
-function validateThirdPage(){
-    let  
+function validateThirdPage() {
+    let errorMessages = [];
+    let percentage = [];
+    let levelsArray = []
+    const levels = document.querySelectorAll("#third-screen .quizz-info");
+    console.log(levels);
+    levels.forEach(level => {
+        let levelObject = {};
+        const levelTitle = level.querySelector(".level-title").value;
+        const levelPercent = level.querySelector(".minimum-rights").value;
+        const levelImage = level.querySelector(".level-image").value;
+        const levelDescription = level.querySelector(".description").value;
+        if(levelTitle.length < 10){
+            errorMessages.push("O título deve ter no mínimo 10 caracteres");
+        }
+        if(levelDescription === ""){
+            errorMessages.push("A descrição não pode estar vazia");   
+        }
+        if(!isURL(levelImage)){
+            errorMessages.push("Insira uma URL válida.");   
+        }
+        percentage.push(levelPercent);
+        levelObject["title"] = levelTitle;
+        levelObject["image"] = levelImage;
+        levelObject["text"] = levelDescription;
+        levelObject["minValue"] = levelPercent;
+        levelsArray.push(levelObject);
+    });
+    console.log(levelsArray);
 }
 function validateFourthPage(){
 
