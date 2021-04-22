@@ -178,3 +178,42 @@ function openOption(option) {
     option.previousElementSibling.scrollIntoView({ behavior: 'smooth', block: 'start'});
     option.classList.add("selected");
 }
+
+function validateFirstPage(){
+    let noErrors = true;
+    let errorMessages = [];
+    const quizzTitle = document.getElementById("quizz-title").value
+    const quizzBanner = document.getElementById("quizz-banner").value
+    const questionsQuantity = document.getElementById("questions-quantity").value
+    const levelsQuantity = document.getElementById("levels-quantity").value
+    if(quizzTitle.length < 20 || quizzTitle.length > 65 ){
+        errorMessages += "O título deve ter de 20 a 65 caracteres"
+        noErrors = false
+    }
+    if(isURL(quizzBanner)){
+        errorMessages += "Por favor, insira uma URL válida"
+        noErrors = false
+    }
+    if(questionsQuantity < 3){
+        errorMessages += "Mínimo de 3 perguntas"    
+        noErrors = false
+    }
+    if(levelsQuantity < 2){
+        errorMessages += "Mínimo de 2 níveis"    
+        noErrors = false
+    }
+    if(noErrors){
+        
+    } else{
+
+    }
+};
+function validateSecondPage(){
+
+}
+function validateThirdPage(){
+
+}
+function validateFourthPage(){
+
+}
