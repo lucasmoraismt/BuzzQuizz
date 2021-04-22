@@ -271,7 +271,6 @@ function validateThirdPage() {
     let percentage = [];
     let levelsArray = []
     const levels = document.querySelectorAll("#third-screen .quizz-info");
-    console.log(levels);
     levels.forEach(level => {
         let levelObject = {};
         const levelTitle = level.querySelector(".level-title").value;
@@ -294,10 +293,31 @@ function validateThirdPage() {
         levelObject["minValue"] = levelPercent;
         levelsArray.push(levelObject);
     });
-    console.log(levelsArray);
-}
-function validateFourthPage(){
+    if(!percentage.includes("0")) {
+        errorMessages.push("Faltando nível com 0% de acerto mínimo");
+    }
+    if(errorMessages.length === 0) {
+        creatingQuizzObject["levels"] = levelsArray;
+        let promise = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/buzzquizz/quizzes', creatingQuizzObject);
 
+        promise.then(validateFourthPage);
+    } else {
+        errorMessages.forEach(msg => console.log(msg));
+    }
+}
+function validateFourthPage(response){
+    let fourthScreen = document.getElementById("fourth-screen");
+    let newQuizz = `
+        <div class="quizz" onclick="renderQuizz(${response.id})">
+            <img src="${response.image}">
+            <div id="gradient">
+                <p class="quizz-title">${response.title}</p>
+            </div>
+        </div>
+        <button class="red-button" onclick="renderQuizz(${response.id})">Acessar Quizz</button>
+        <button class="back-home" onclick="toggleScreen('.back-home')">Voltar pra home</button>`
+    fourthScreen.innerHTML += newQuizz;
+    renderScreen(4);
 }
 
 function isHex(string){
@@ -395,17 +415,6 @@ function renderScreen(n, questions, levels){
         }
         toggleScreen('#third-screen')
     } else if(n === 4){
-        //post & then render new quizz
-        let fourthScreen = document.getElementById("fourth-screen");
-        let newQuizz = `
-            <div class="quizz" onclick="renderQuizz(${id})">
-                <img src="${img}">
-                <div id="gradient">
-                    <p class="quizz-title">${title}</p>
-                </div>
-            </div>
-            <button class="red-button" onclick="renderQuizz(${id})">Acessar Quizz</button>
-            <button class="back-home" onclick="toggleScreen('.back-home')">Voltar pra home</button>`
         toggleScreen('#fourth-screen')
     }
 }
