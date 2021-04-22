@@ -362,6 +362,10 @@ button.back-home{
     vertical-align: middle; 
 }
 
+#create-quizz input.description {
+    height: 180px;
+}
+
 .hidden {
     display: none;
 }

@@ -257,7 +257,7 @@ function validateSecondPage(){
     }
 }
 function validateThirdPage(){
-
+    let  
 }
 function validateFourthPage(){
 
@@ -359,6 +359,16 @@ function renderScreen(n, questions, levels){
         toggleScreen('#third-screen')
     } else if(n === 4){
         //post & then render new quizz
+        let fourthScreen = document.getElementById("fourth-screen");
+        let newQuizz = `
+            <div class="quizz" onclick="renderQuizz(${id})">
+                <img src="${img}">
+                <div id="gradient">
+                    <p class="quizz-title">${title}</p>
+                </div>
+            </div>
+            <button class="red-button" onclick="renderQuizz(${id})">Acessar Quizz</button>
+            <button class="back-home" onclick="toggleScreen('.back-home')">Voltar pra home</button>`
         toggleScreen('#fourth-screen')
     }
 }
