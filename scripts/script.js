@@ -175,12 +175,11 @@ function comparator() {
 function openOption(option) {
     let currentSelected = option.parentNode.querySelector(".quizz-info.selected");
     currentSelected.classList.remove("selected");
-    option.previousElementSibling.scrollIntoView({ behavior: 'smooth', block: 'start'});
     option.classList.add("selected");
+    option.previousElementSibling.scrollIntoView({ behavior: 'smooth', block: 'start'});
 }
 
 function validateFirstPage(){
-    let noErrors = true;
     let errorMessages = [];
     const quizzTitle = document.getElementById("quizz-title").value
     const quizzBanner = document.getElementById("quizz-banner").value
@@ -188,28 +187,74 @@ function validateFirstPage(){
     const levelsQuantity = document.getElementById("levels-quantity").value
     if(quizzTitle.length < 20 || quizzTitle.length > 65){
         errorMessages.push("O título deve ter de 20 a 65 caracteres.");
-        noErrors = false
     }
     if(!isURL(quizzBanner)){
-        errorMessages.push("Por favor, insira uma URL válida.");
-        noErrors = false
+        errorMessages.push("Insira uma URL válida.");
     }
     if(questionsQuantity < 3){
         errorMessages.push("Mínimo de 3 perguntas.");   
-        noErrors = false
     }
     if(levelsQuantity < 2){
         errorMessages.push("Mínimo de 2 níveis.");   
-        noErrors = false
     }
-    if(noErrors){
+    if(errorMessages.length === 0){
+        //push to object
         renderScreen(2)
     } else{
         errorMessages.forEach(msg => console.log(msg));
     }
 };
 function validateSecondPage(){
-
+    let unfilteredErrors = [];
+    let filteredErrors = [];
+    let unfilteredValidWrongs = [];
+    let filteredValidWrongs = [];
+    let iterations = 0;
+    const questions = document.querySelectorAll("#second-screen .quizz-info");
+    questions.forEach(question => {
+        const quastionText = question.querySelector(".question-text").value;
+        const questionColor = question.querySelector(".question-color").value;
+        const rightAnswer = question.querySelector(".right-answer").value;
+        const rightImage = question.querySelector(".right-image").value;
+        const wrongAnswerArray = question.querySelectorAll(".wrong-answer");
+        const wrongImageArray = question.querySelectorAll(".wrong-image");
+        if(quastionText.length < 20){
+            unfilteredErrors.push("A pergunta deve ter no mínimo 20 caracteres");
+        }
+        if(!isHex(questionColor)){
+            unfilteredErrors.push("A cor deve estar em hexadecimal");
+        }
+        if(rightAnswer === ""){
+            unfilteredErrors.push("Resposta correta não pode estar vazia");   
+        }
+        if(!isURL(rightImage)){
+            unfilteredErrors.push("Insira uma URL válida.");   
+        }
+        for (let i = 0; i < wrongAnswerArray.length; i++) {
+            const text = wrongAnswerArray[i].value;
+            const img = wrongImageArray[i].value;
+            if(text !== "" && isURL(img)){
+                unfilteredValidWrongs.push(iterations)
+                //push to object
+            } else if(text === "" || !isURL(img) ){
+                unfilteredErrors.push("Insira a resposta incorreta com uma imagem.");   
+            }
+        }
+        iterations++
+        //push to object
+    })
+    filteredErrors = sortUnique(unfilteredErrors);
+    filteredValidWrongs = sortUnique(unfilteredValidWrongs);
+    if(filteredValidWrongs.length === 3){
+        const item = "Insira a resposta incorreta com uma imagem."
+        filteredErrors = removeFromArray(filteredErrors, item)
+    }
+    if(filteredErrors.length === 0){
+        //push to object
+        renderScreen(3)
+    } else {
+        filteredErrors.forEach(msg => console.log(msg));
+    }
 }
 function validateThirdPage(){
 
@@ -235,15 +280,28 @@ function isURL(str) {
       '(\\#[-a-z\\d_]*)?$','i');
     return !!pattern.test(str);
 }
+function sortUnique(array){
+    const oldArr = Array.from(array).sort((a, b) => a - b);
+    let newArr = []
+    oldArr.forEach((n) => {
+        if (!newArr.includes(n)) {
+            newArr.push(n);
+        }
+    });
+    return newArr;
+}
+function removeFromArray(arr, item){
+   return (arr = arr.filter(n => n !== item));
+}
 
 function renderScreen(n){
-    if(n = 2){
+    if(n === 2){
         toggleScreen('#second-screen')
-    } else if(n = 3){
+    } else if(n === 3){
         //render more questions if needed
         toggleScreen('#third-screen')
-    } else if(n = 4){
-        //render more levels
+    } else if(n === 4){
+        //render more levels if needed
         toggleScreen('#fourth-screen')
     }
 }  
