@@ -199,7 +199,7 @@ function validateFirstPage(){
     }
     if(errorMessages.length === 0){
         //push to object
-        renderScreen(2)
+        renderScreen(2, questionsQuantity, levelsQuantity);
     } else{
         errorMessages.forEach(msg => console.log(msg));
     }
@@ -212,13 +212,13 @@ function validateSecondPage(){
     let iterations = 0;
     const questions = document.querySelectorAll("#second-screen .quizz-info");
     questions.forEach(question => {
-        const quastionText = question.querySelector(".question-text").value;
+        const questionText = question.querySelector(".question-text").value;
         const questionColor = question.querySelector(".question-color").value;
         const rightAnswer = question.querySelector(".right-answer").value;
         const rightImage = question.querySelector(".right-image").value;
         const wrongAnswerArray = question.querySelectorAll(".wrong-answer");
         const wrongImageArray = question.querySelectorAll(".wrong-image");
-        if(quastionText.length < 20){
+        if(questionText.length < 20){
             unfilteredErrors.push("A pergunta deve ter no mínimo 20 caracteres");
         }
         if(!isHex(questionColor)){
@@ -294,14 +294,71 @@ function removeFromArray(arr, item){
    return (arr = arr.filter(n => n !== item));
 }
 
-function renderScreen(n){
+function renderScreen(n, questions, levels){
     if(n === 2){
+        questions = parseInt(questions);
+        if(questions > 3) {
+            let secondScreen = document.getElementById("second-screen");
+            let button = secondScreen.querySelector(".red-button");
+            let padding = secondScreen.querySelector(".bottom-padding");
+            secondScreen.removeChild(button);
+            secondScreen.removeChild(padding);
+            for(i = 0; i < (questions - 3); i++) {
+                const newQuestion = `
+                    <div class="quizz-info" onclick="openOption(this)">
+                        <div class="icon">
+                            <p class="title">Pergunta ${3 + (i + 1)}</p>
+                            <ion-icon name="create-outline"></ion-icon>
+                        </div>
+                        <input class="question-text" type="text" placeholder="Texto da pergunta">
+                        <input class="question-color" type="text" placeholder="Cor de fundo da pergunta">
+                        <p class="title">Resposta correta</p>
+                        <input class="right-answer" type="text" placeholder="Resposta correta">
+                        <input class="right-image" type="text" placeholder="URL da imagem">
+                        <p class="title">Respostas incorretas</p>
+                        <input class="wrong-answer" type="text" placeholder="Resposta incorreta 1">
+                        <input class="wrong-image" type="text" placeholder="URL da imagem 1">
+                        <input class="wrong-answer" type="text" placeholder="Resposta incorreta 2">
+                        <input class="wrong-image" type="text" placeholder="URL da imagem 2">
+                        <input class="wrong-answer" type="text" placeholder="Resposta incorreta 3">
+                        <input class="wrong-image" type="text" placeholder="URL da imagem 3">
+                    </div>`
+                secondScreen.innerHTML += newQuestion;
+            }
+            secondScreen.innerHTML += `
+                <button class="red-button" onclick="validateSecondPage()">Prosseguir pra criar níveis</button>
+                <div class="bottom-padding">&nbsp;</div>`
+        }
         toggleScreen('#second-screen')
     } else if(n === 3){
-        //render more questions if needed
+        levels = parseInt(levels);
+        if(levels > 2) {
+            let thirdScreen = document.getElementById("third-screen");
+            let button = thirdScreen.querySelector(".red-button");
+            let padding = thirdScreen.querySelector("bottom-padding");
+            thirdScreen.removeChild(button);
+            thirdScreen.removeChild(padding);
+            for(i = 0; i < (levels - 2); i++) {
+                const newLevel = `
+                    <div class="quizz-info" onclick="openOption(this)">
+                        <div class="icon">
+                            <p class="title">Nível ${2 + (i + 1)}</p>
+                            <ion-icon name="create-outline"></ion-icon>
+                        </div>
+                        <input class="level-title" type="text" placeholder="Título do nível">
+                        <input class="minimum-rights" type="text" placeholder="% de acerto mínima">
+                        <input class="level-image" type="text" placeholder="URL da imagem do nível">
+                        <input class="description" type="text" placeholder="Descrição do nível">
+                    </div>`;
+                thirdScreen.innerHTML += newLevel;
+            }
+            thirdScreen.innerHTML += `
+                <button class="red-button" onclick="validateThirdPage()">Finalizar Quizz</button>
+                <div class="bottom-padding">&nbsp;</div>`
+        }
         toggleScreen('#third-screen')
     } else if(n === 4){
-        //render more levels if needed
+        //post & then render new quizz
         toggleScreen('#fourth-screen')
     }
-}  
+}
