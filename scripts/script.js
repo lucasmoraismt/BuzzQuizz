@@ -212,9 +212,8 @@ function validateSecondPage(){
     let filteredErrors = [];
     let unfilteredValidWrongs = [];
     let filteredValidWrongs = [];
-    let iterations = 0;
     const questions = document.querySelectorAll("#second-screen .quizz-info");
-    questions.forEach(question => {
+    questions.forEach((question, iterations) => {
         let questionObject = {};
         let answerArray = [];
         const questionText = question.querySelector(".question-text").value;
@@ -249,7 +248,6 @@ function validateSecondPage(){
             }
         }
         questionObject["answers"] = answerArray;
-        iterations++
         questionsArray.push(questionObject);
     });
     filteredErrors = sortUnique(unfilteredErrors);
