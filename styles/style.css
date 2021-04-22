@@ -217,7 +217,6 @@ body {
 #inside-quizz .option p{
     margin: 5px 0px 12px 0px;
     font-size: 13px;
-
 }
 #inside-quizz .level{
     background-color: #FFFFFF; 
@@ -368,4 +367,61 @@ button.back-home{
 
 .hidden {
     display: none;
+}
+
+@media (min-width:1100px){
+    body {
+        width: 1110px;
+        margin: auto;
+    }
+    .quizz {
+        width: 341px;
+        height: 181px;
+    }
+    .your-quizzes, .all-quizzes {
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin: 30px 0px;
+    }
+    #inside-quizz .quizz-title {
+        height: 227px;
+    }
+    #inside-quizz .quizz-title div{
+        font-size: 39px;
+    }
+    #inside-quizz .question-box{
+        width: 759px;
+        height: 676px;
+    }
+    #inside-quizz .question-box .question{
+        height: 138px;
+        font-size: 23px;
+    }
+    #inside-quizz .option{
+        width: 49%;
+    }
+    #inside-quizz .option p{
+        font-size: 20px;
+    }
+    #inside-quizz .option .image{
+        height: 175px;
+    }
+
+    #inside-quizz .level{
+        width: 759px;
+        font-size: 19px;
+    }
+    #inside-quizz .level div{
+        font-size: 23px;
+        margin-bottom: 9px
+    }
+    #inside-quizz .level img{
+        float: left;
+        width: 364px;
+        margin: 0px 20px 0px 0px;
+
+    }
+    #inside-quizz .level span{
+        word-break: normal;
+    }
 }
