@@ -28,8 +28,15 @@ function getQuizzes() {
 
 function displayQuizzes(response) {
 
+    quizzesArray = [];
     let allQuizzes = document.querySelector(".all-quizzes");
     let yourQuizzes = document.querySelector(".your-quizzes");
+    allQuizzes.innerHTML = '<p class="title">Todos os Quizzes</p>';
+    yourQuizzes.innerHTML = `
+        <div>
+            <p class="title">Seus Quizzes</p>
+            <ion-icon name="add-circle" onclick="toggleScreen('#first-screen')"></ion-icon>
+        </div>`
     quizzesArray = response.data;
     for (i = 0; i < response.data.length; i++) {
 
@@ -69,6 +76,7 @@ function toggleScreen(selector){
     const bodyStyle = document.querySelector("body").style
     const lastPage = document.querySelector(lastPageSelector)
     if(selector === ".back-home"){
+        getQuizzes();
         lastPage.style.left = "100%";
         bodyStyle.overflow = "scroll";
         setTimeout(function(){
@@ -269,7 +277,6 @@ function validateThirdPage() {
     let percentage = [];
     let levelsArray = []
     const levels = document.querySelectorAll("#third-screen .quizz-info");
-    console.log(levels);
     levels.forEach(level => {
         let levelObject = {};
         const levelTitle = level.querySelector(".level-title").value;
@@ -292,10 +299,33 @@ function validateThirdPage() {
         levelObject["minValue"] = levelPercent;
         levelsArray.push(levelObject);
     });
-    console.log(levelsArray);
-}
-function validateFourthPage(){
+    if(!percentage.includes("0")) {
+        errorMessages.push("Faltando nível com 0% de acerto mínimo");
+    }
+    if(errorMessages.length === 0) {
+        creatingQuizzObject["levels"] = levelsArray;
+        let promise = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/buzzquizz/quizzes', creatingQuizzObject);
 
+        promise.then(validateFourthPage);
+    } else {
+        errorMessages.forEach(msg => console.log(msg));
+    }
+}
+function validateFourthPage(response){
+    let fourthScreen = document.getElementById("fourth-screen");
+    let newQuizz = `
+        <div class="quizz" onclick="renderQuizz(${response.id})">
+            <img src="${response.image}">
+            <div id="gradient">
+                <p class="quizz-title">${response.title}</p>
+            </div>
+        </div>
+        <button class="red-button" onclick="renderQuizz(${response.id})">Acessar Quizz</button>
+        <button class="back-home" onclick="toggleScreen('.back-home')">Voltar pra home</button>`
+    fourthScreen.innerHTML += newQuizz;
+    setLocalStorage(response.id);
+    getLocalStorage();
+    renderScreen(4);
 }
 
 function isHex(string){
@@ -393,17 +423,6 @@ function renderScreen(n, questions, levels){
         }
         toggleScreen('#third-screen')
     } else if(n === 4){
-        //post & then render new quizz
-        let fourthScreen = document.getElementById("fourth-screen");
-        let newQuizz = `
-            <div class="quizz" onclick="renderQuizz(${id})">
-                <img src="${img}">
-                <div id="gradient">
-                    <p class="quizz-title">${title}</p>
-                </div>
-            </div>
-            <button class="red-button" onclick="renderQuizz(${id})">Acessar Quizz</button>
-            <button class="back-home" onclick="toggleScreen('.back-home')">Voltar pra home</button>`
         toggleScreen('#fourth-screen')
     }
 }
