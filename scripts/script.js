@@ -408,15 +408,13 @@ function renderScreen(n, questions){
         levelsNumber = parseInt(levelsNumber);
         if(levelsNumber > 2) {
             let thirdScreen = document.getElementById("third-screen");
-            let button = thirdScreen.querySelector(".red-button");
-            let padding = thirdScreen.querySelector("bottom-padding");
-            thirdScreen.removeChild(button);
-            thirdScreen.removeChild(padding);
-            for(i = 0; i < (levelsNumber - 2); i++) {
+            for(i = 0; i < levelsNumber; i++) {
+                let selected;
+                if(i===0){selected = " selected"} else {selected = ""};
                 const newLevel = `
-                    <div class="quizz-info" onclick="openOption(this)">
+                    <div class="quizz-info${selected}" onclick="openOption(this)">
                         <div class="icon">
-                            <p class="title">Nível ${2 + (i + 1)}</p>
+                            <p class="title">Nível ${(i + 1)}</p>
                             <ion-icon name="create-outline"></ion-icon>
                         </div>
                         <input class="level-title" type="text" placeholder="Título do nível">
