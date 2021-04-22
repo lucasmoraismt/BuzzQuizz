@@ -99,6 +99,9 @@ body {
     border-radius: 5px;
     margin-top: 15px;
     position: relative;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
 }
 
 .quizz img {
@@ -290,6 +293,7 @@ button.back-home{
 #third-screen > *,
 #fourth-screen > * {
     flex-shrink: 0;
+    max-width: 600px;
 }
 #fourth-screen .quizz{
     width: 90vw;
@@ -303,6 +307,10 @@ button.back-home{
     align-items: center;
     justify-content: center;
     align-items: center;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 23px;
+    color: #000000;
 }
 
 #create-quizz .quizz-info {
@@ -431,11 +439,6 @@ button.back-home{
     #inside-quizz .level span{
         word-break: normal;
     }
-    #first-screen > *,
-    #second-screen > *,
-    #third-screen > *,
-    #fourth-screen > * {
-        width: 1110px;
-        margin: auto;
-}
+
+
 }

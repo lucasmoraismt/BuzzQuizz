@@ -42,8 +42,7 @@ function displayQuizzes(response) {
 
         let quizz = quizzesArray[i];
         let quizzHTML = `
-            <li class="quizz" onclick="openQuizz(${quizz.id})">
-                <img src="${quizz.image}">
+            <li class="quizz" onclick="openQuizz(${quizz.id})" style="background-image: url(${quizz.image});">
                 <div id="gradient">
                     <p class="quizz-title">${quizz.title}</p>
                 </div>
