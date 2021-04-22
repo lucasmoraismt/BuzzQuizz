@@ -186,26 +186,26 @@ function validateFirstPage(){
     const quizzBanner = document.getElementById("quizz-banner").value
     const questionsQuantity = document.getElementById("questions-quantity").value
     const levelsQuantity = document.getElementById("levels-quantity").value
-    if(quizzTitle.length < 20 || quizzTitle.length > 65 ){
-        errorMessages += "O título deve ter de 20 a 65 caracteres"
+    if(quizzTitle.length < 20 || quizzTitle.length > 65){
+        errorMessages.push("O título deve ter de 20 a 65 caracteres.");
         noErrors = false
     }
-    if(isURL(quizzBanner)){
-        errorMessages += "Por favor, insira uma URL válida"
+    if(!isURL(quizzBanner)){
+        errorMessages.push("Por favor, insira uma URL válida.");
         noErrors = false
     }
     if(questionsQuantity < 3){
-        errorMessages += "Mínimo de 3 perguntas"    
+        errorMessages.push("Mínimo de 3 perguntas.");   
         noErrors = false
     }
     if(levelsQuantity < 2){
-        errorMessages += "Mínimo de 2 níveis"    
+        errorMessages.push("Mínimo de 2 níveis.");   
         noErrors = false
     }
     if(noErrors){
-        
+        renderScreen(2)
     } else{
-
+        errorMessages.forEach(msg => console.log(msg));
     }
 };
 function validateSecondPage(){
@@ -217,3 +217,33 @@ function validateThirdPage(){
 function validateFourthPage(){
 
 }
+
+function isHex(string){
+    const re = /[0-9A-Fa-f]{6}/g;
+    if(re.test(string)) {
+        return true;
+    }
+    return false;
+}
+
+function isURL(str) {
+    var pattern = new RegExp('^(https?:\\/\\/)?'+
+      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+
+      '((\\d{1,3}\\.){3}\\d{1,3}))'+
+      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+
+      '(\\?[;&a-z\\d%_.~+=-]*)?'+
+      '(\\#[-a-z\\d_]*)?$','i');
+    return !!pattern.test(str);
+}
+
+function renderScreen(n){
+    if(n = 2){
+        toggleScreen('#second-screen')
+    } else if(n = 3){
+        //render more questions if needed
+        toggleScreen('#third-screen')
+    } else if(n = 4){
+        //render more levels
+        toggleScreen('#fourth-screen')
+    }
+}  
