@@ -4,6 +4,7 @@ let localStorageArray = [];
 let currentQuizzObject = {};
 let creatingQuizzObject = {};
 let levelsNumber = null;
+let questionsNumber = null;
 getLocalStorage();
 getQuizzes();
 
@@ -210,6 +211,7 @@ function validateFirstPage(){
         creatingQuizzObject["title"] = quizzTitle;
         creatingQuizzObject["image"] = quizzBanner;
         levelsNumber = levelsQuantity;
+        questionsNumber = parseInt(questionsQuantity);
         renderScreen(2, questionsQuantity);
     } else{
         let alertMessage = '';
@@ -263,7 +265,7 @@ function validateSecondPage(){
     });
     filteredErrors = sortUnique(unfilteredErrors);
     filteredValidWrongs = sortUnique(unfilteredValidWrongs);
-    if(filteredValidWrongs.length === 3){
+    if(filteredValidWrongs.length === questionsNumber){
         const item = "Insira a resposta incorreta com uma imagem."
         filteredErrors = removeFromArray(filteredErrors, item)
     }
