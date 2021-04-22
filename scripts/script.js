@@ -3,6 +3,7 @@ let quizzesArray = [];
 let localStorageArray = [];
 let currentQuizzObject = {};
 let creatingQuizzObject = {};
+let levelsNumber = null;
 getLocalStorage();
 getQuizzes();
 
@@ -208,7 +209,8 @@ function validateFirstPage(){
     if(errorMessages.length === 0){
         creatingQuizzObject["title"] = quizzTitle;
         creatingQuizzObject["image"] = quizzBanner;
-        renderScreen(2, questionsQuantity, levelsQuantity);
+        levelsNumber = levelsQuantity;
+        renderScreen(2, questionsQuantity);
     } else{
         let alertMessage = '';
         errorMessages.forEach(msg => alertMessage += msg + "\n");
@@ -232,13 +234,13 @@ function validateSecondPage(){
         const wrongAnswerArray = question.querySelectorAll(".wrong-answer");
         const wrongImageArray = question.querySelectorAll(".wrong-image");
         if(questionText.length < 20){
-            unfilteredErrors.push("A pergunta deve ter no mínimo 20 caracteres");
+            unfilteredErrors.push("A pergunta deve ter no mínimo 20 caracteres.");
         }       
         if(!isHex(questionColor)){
-            unfilteredErrors.push("A cor deve estar em hexadecimal");
+            unfilteredErrors.push("A cor deve estar em hexadecimal.");
         }
         if(rightAnswer === ""){
-            unfilteredErrors.push("Resposta correta não pode estar vazia");   
+            unfilteredErrors.push("Resposta correta não pode estar vazia.");   
         }
         if(!isURL(rightImage)){
             unfilteredErrors.push("Insira uma URL válida.");   
@@ -286,10 +288,10 @@ function validateThirdPage() {
         const levelImage = level.querySelector(".level-image").value;
         const levelDescription = level.querySelector(".description").value;
         if(levelTitle.length < 10){
-            errorMessages.push("O título deve ter no mínimo 10 caracteres");
+            errorMessages.push("O título deve ter no mínimo 10 caracteres.");
         }
         if(levelDescription === ""){
-            errorMessages.push("A descrição não pode estar vazia");   
+            errorMessages.push("A descrição não pode estar vazia.");   
         }
         if(!isURL(levelImage)){
             errorMessages.push("Insira uma URL válida.");   
@@ -302,7 +304,7 @@ function validateThirdPage() {
         levelsArray.push(levelObject);
     });
     if(!percentage.includes("0")) {
-        errorMessages.push("Faltando nível com 0% de acerto mínimo");
+        errorMessages.push("Faltando nível com 0% de acerto mínimo.");
     }
     if(errorMessages.length === 0) {
         creatingQuizzObject["levels"] = levelsArray;
@@ -329,6 +331,7 @@ function validateFourthPage(response){
     fourthScreen.innerHTML += newQuizz;
     setLocalStorage(response.id);
     getLocalStorage();
+    levelsNumber = null;
     renderScreen(4);
 }
 
@@ -363,7 +366,7 @@ function removeFromArray(arr, item){
    return (arr = arr.filter(n => n !== item));
 }
 
-function renderScreen(n, questions, levels){
+function renderScreen(n, questions){
     if(n === 2){
         questions = parseInt(questions);
         if(questions > 3) {
@@ -400,14 +403,14 @@ function renderScreen(n, questions, levels){
         }
         toggleScreen('#second-screen')
     } else if(n === 3){
-        levels = parseInt(levels);
-        if(levels > 2) {
+        levelsNumber = parseInt(levelsNumber);
+        if(levelsNumber > 2) {
             let thirdScreen = document.getElementById("third-screen");
             let button = thirdScreen.querySelector(".red-button");
             let padding = thirdScreen.querySelector("bottom-padding");
             thirdScreen.removeChild(button);
             thirdScreen.removeChild(padding);
-            for(i = 0; i < (levels - 2); i++) {
+            for(i = 0; i < (levelsNumber - 2); i++) {
                 const newLevel = `
                     <div class="quizz-info" onclick="openOption(this)">
                         <div class="icon">
