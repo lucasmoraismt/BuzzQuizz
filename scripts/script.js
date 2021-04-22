@@ -28,8 +28,15 @@ function getQuizzes() {
 
 function displayQuizzes(response) {
 
+    quizzesArray = [];
     let allQuizzes = document.querySelector(".all-quizzes");
     let yourQuizzes = document.querySelector(".your-quizzes");
+    allQuizzes.innerHTML = '<p class="title">Todos os Quizzes</p>';
+    yourQuizzes.innerHTML = `
+        <div>
+            <p class="title">Seus Quizzes</p>
+            <ion-icon name="add-circle" onclick="toggleScreen('#first-screen')"></ion-icon>
+        </div>`
     quizzesArray = response.data;
     for (i = 0; i < response.data.length; i++) {
 
@@ -69,6 +76,7 @@ function toggleScreen(selector){
     const bodyStyle = document.querySelector("body").style
     const lastPage = document.querySelector(lastPageSelector)
     if(selector === ".back-home"){
+        getQuizzes();
         lastPage.style.left = "100%";
         bodyStyle.overflow = "scroll";
         setTimeout(function(){
@@ -315,6 +323,8 @@ function validateFourthPage(response){
         <button class="red-button" onclick="renderQuizz(${response.id})">Acessar Quizz</button>
         <button class="back-home" onclick="toggleScreen('.back-home')">Voltar pra home</button>`
     fourthScreen.innerHTML += newQuizz;
+    setLocalStorage(response.id);
+    getLocalStorage();
     renderScreen(4);
 }
 
