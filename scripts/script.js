@@ -316,6 +316,7 @@ function validateThirdPage() {
     }
 }
 function validateFourthPage(response){
+    getQuizzes();
     editMode = false;
     let fourthScreen = document.getElementById("fourth-screen");
     fourthScreen.innerHTML = `
@@ -334,7 +335,6 @@ function validateFourthPage(response){
     fourthScreen.innerHTML += newQuizz;
     setLocalStorage(response.data.id, response.data.key);
     levelsNumber = null;
-    getQuizzes();
     renderScreen(4);
 }
 function isHex(string){
