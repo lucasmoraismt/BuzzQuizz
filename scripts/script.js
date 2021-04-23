@@ -63,11 +63,13 @@ function displayQuizzes(response) {
         }
     }
     const youHaveQuizzes = document.querySelector(".your-quizzes .quizz")
+    let startQuizz = document.querySelector(".start-quizz");
     if(youHaveQuizzes !== null) {
-        let startQuizz = document.querySelector(".start-quizz");
         startQuizz.classList.add("hidden");
+        yourQuizzes.classList.remove("hidden");
         yourQuizzes.style.margin = "0px 0px 30px 0px"
     } else {
+        startQuizz.classList.remove("hidden");
         yourQuizzes.classList.add("hidden");
     }
     loadingToggle(false)
