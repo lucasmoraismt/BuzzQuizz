@@ -376,7 +376,32 @@ function editSecondScreen(){
                 }
             });
         }
-        
+    }
+}
+
+function editThirdScreen(){
+    const oldNumberOfLevels = currentQuizzObject.levels.length
+    const quizzInfos = document.querySelectorAll("#third-screen .quizz-info");
+    const firstLevel = currentQuizzObject.levels.filter(level => level.minValue === 0);
+    const otherLevels = currentQuizzObject.levels.filter(level => level.minValue !== 0);
+    for (let i = 0; i < quizzInfos.length; i++) {
+        if(i < oldNumberOfLevels){
+            const levelTitle = quizzInfos[i].querySelector(".level-title");
+            const levelPercent = quizzInfos[i].querySelector(".minimum-rights");
+            const levelImage = quizzInfos[i].querySelector(".level-image");
+            const levelDescription = quizzInfos[i].querySelector(".description");
+            if(i === 0){
+                levelTitle.value = firstLevel[0].title
+                levelPercent.value = firstLevel[0].minValue
+                levelImage.value = firstLevel[0].image
+                levelDescription.value = firstLevel[0].text
+            }else{
+                levelTitle.value = otherLevels[i-1].title
+                levelPercent.value = otherLevels[i-1].minValue
+                levelImage.value = otherLevels[i-1].image
+                levelDescription.value = otherLevels[i-1].text    
+            }
+        }
     }
 }
 
@@ -425,37 +450,38 @@ function renderScreen(screenNumber, questions){
         toggleScreen('#second-screen')
     } else if(screenNumber === 3){
         levelsNumber = parseInt(levelsNumber);
-            let thirdScreen = document.getElementById("third-screen");
-            let selected;
-            let disabled;
-            for(i = 0; i < levelsNumber; i++) {
-                if(i===0){
-                    selected = " selected"
-                    disabled = " value='0' disabled"
-                } else {
-                    selected = ""
-                    disabled = " min='1' max='100'"
-                };
-                const newLevel = `
-                    <div class="quizz-info${selected}" onclick="openOption(this)">
-                        <div class="icon">
-                            <p class="title">Nível ${(i + 1)}</p>
-                            <ion-icon name="create-outline"></ion-icon>
-                        </div>
-                        <input class="level-title" type="text" placeholder="Título do nível">
-                        <span class="warning">O título deve ter no mínimo 10 caracteres</span>
-                        <input class="minimum-rights" type="number" placeholder="% de acerto mínima"${disabled}>
-                        <span class="warning">Digite uma porcentagem de acertos</span>
-                        <input class="level-image" type="url" placeholder="URL da imagem do nível">
-                        <span class="warning">Insira uma URL válida</span>
-                        <textarea class="description" placeholder="Descrição do nível"></textarea>
-                        <span class="warning">A descrição não pode estar vazia.</span>
-                    </div>`;
-                thirdScreen.innerHTML += newLevel;
-            }
-            thirdScreen.innerHTML += `
-                <button class="red-button" onclick="validateThirdPage()">Finalizar Quizz</button>
-                <div class="bottom-padding">&nbsp;</div>`
+        let thirdScreen = document.getElementById("third-screen");
+        let selected;
+        let disabled;
+        for(i = 0; i < levelsNumber; i++) {
+            if(i===0){
+                selected = " selected"
+                disabled = " value='0' disabled"
+            } else {
+                selected = ""
+                disabled = " min='1' max='100'"
+            };
+            const newLevel = `
+                <div class="quizz-info${selected}" onclick="openOption(this)">
+                    <div class="icon">
+                        <p class="title">Nível ${(i + 1)}</p>
+                        <ion-icon name="create-outline"></ion-icon>
+                    </div>
+                    <input class="level-title" type="text" placeholder="Título do nível">
+                    <span class="warning">O título deve ter no mínimo 10 caracteres</span>
+                    <input class="minimum-rights" type="number" placeholder="% de acerto mínima"${disabled}>
+                    <span class="warning">Digite uma porcentagem mínima de acertos</span>
+                    <input class="level-image" type="url" placeholder="URL da imagem do nível">
+                    <span class="warning">Insira uma URL válida</span>
+                    <textarea class="description" placeholder="Descrição do nível"></textarea>
+                    <span class="warning">A descrição não pode estar vazia.</span>
+                </div>`;
+            thirdScreen.innerHTML += newLevel;
+        }
+        thirdScreen.innerHTML += `
+            <button class="red-button" onclick="validateThirdPage()">Finalizar Quizz</button>
+            <div class="bottom-padding">&nbsp;</div>`
+        if(editMode){editThirdScreen()}    
         toggleScreen('#third-screen')
     } else if(screenNumber === 4){
         toggleScreen('#fourth-screen')
