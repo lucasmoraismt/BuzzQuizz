@@ -331,7 +331,7 @@ function validateFourthPage(response){
         <button class="red-button" onclick="renderQuizz(${response.data.id})">Acessar Quizz</button>
         <button class="back-home" onclick="toggleScreen('.back-home')">Voltar pra home</button>`
     fourthScreen.innerHTML += newQuizz;
-    setLocalStorage(response.id);
+    setLocalStorage(response.data.id);
     getLocalStorage();
     levelsNumber = null;
     renderScreen(4);
