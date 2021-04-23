@@ -4,19 +4,18 @@ let currentQuizzObject = {};
 let creatingQuizzObject = {};
 let levelsNumber = null;
 let questionsNumber = null;
+let lastPageSelector = "body";
 getQuizzes();
 
 function setLocalStorage(newId, key) {
     newId = parseInt(newId);
     localStorage.setItem(newId, `${key}`);
 }
-
 function getQuizzes() {
     let promise = axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v2/buzzquizz/quizzes');
 
     promise.then(displayQuizzes);
 }
-
 function displayQuizzes(response) {
 
     quizzesArray = [];
@@ -69,13 +68,10 @@ function displayQuizzes(response) {
         yourQuizzes.classList.add("hidden");
     }
 }
-
 function openQuizz(id) {
     renderQuizz(id);
     toggleScreen("#inside-quizz");
 }
-let lastPageSelector = "body";
-
 function toggleScreen(selector){
     const openPage = document.querySelector(selector)
     const bodyStyle = document.querySelector("body").style
@@ -179,28 +175,23 @@ function displayLevel(){
     levelDiv.innerHTML = levelHTML;
     levelDiv.classList.remove("hidden")
 }
-
 function comparator() {
     return Math.random() - 0.5;
 }
-
 function openOption(option) {
     let currentSelected = option.parentNode.querySelector(".quizz-info.selected");
     currentSelected.classList.remove("selected");
     option.classList.add("selected");
     option.previousElementSibling.scrollIntoView({ behavior: 'smooth', block: 'start'});
 }
-
 function showWarning(element){
     element.classList.add("error")
     element.nextElementSibling.classList.add("error")
 }
-
 function clearWarnings(selector){
     const errorList = document.querySelectorAll(`${selector} .error`);
     errorList.forEach(element => element.classList.remove("error"));
 }
-
 function validateFirstPage(){
     const quizzTitle = document.getElementById("quizz-title")
     const quizzBanner = document.getElementById("quizz-banner")
@@ -337,11 +328,9 @@ function validateFourthPage(response){
         <button class="back-home" onclick="toggleScreen('.back-home')">Voltar pra home</button>`
     fourthScreen.innerHTML += newQuizz;
     setLocalStorage(response.data.id, response.data.key);
-    getLocalStorage();
     levelsNumber = null;
     renderScreen(4);
 }
-
 function isHex(string){
     const re = /[0-9A-Fa-f]{6}/g;
     if(re.test(string)) {
@@ -349,7 +338,6 @@ function isHex(string){
     }
     return false;
 }
-
 function isURL(str) {
     var pattern = new RegExp('^(https?:\\/\\/)?'+
       '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+
@@ -372,7 +360,6 @@ function sortUnique(array){
 function removeFromArray(arr, item){
    return (arr = arr.filter(n => n !== item));
 }
-
 function renderScreen(n, questions){
     if(n === 2){
         questions = parseInt(questions);
