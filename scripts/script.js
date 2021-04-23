@@ -6,6 +6,7 @@ let levelsNumber = null;
 let questionsNumber = null;
 let lastPageSelector = "body";
 let editMode = false;
+let editId = null;
 getQuizzes();
 
 function setLocalStorage(newId, key) {
@@ -16,7 +17,7 @@ function getQuizzes() {
     let promise = axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v2/buzzquizz/quizzes');
 
     promise.then(displayQuizzes);
-    loadingToggle(true);     
+    loadingToggle(true);
 }
 function displayQuizzes(response) {
 
@@ -80,6 +81,7 @@ function toggleScreen(selector){
     const bodyStyle = document.querySelector("body").style
     const lastPage = document.querySelector(lastPageSelector)
     if(selector === ".back-home"){
+        getQuizzes();
         lastPage.style.left = "100%";
         bodyStyle.overflow = "scroll";
         setTimeout(function(){
@@ -307,7 +309,9 @@ function validateThirdPage() {
     if(errorList.length === 0) {
         creatingQuizzObject["levels"] = levelsArray;
         if(editMode){
-        //TO-DO Lucas
+            let promise = axios.put(`https://mock-api.bootcamp.respondeai.com.br/api/v2/buzzquizz/quizzes/${editId}`, creatingQuizzObject, {headers: {'Secret-Key': `${localStorage[editId]}`}});
+            promise.then(validateFourthPage);
+            loadingToggle(true);
         } else{
             let promise = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/buzzquizz/quizzes', creatingQuizzObject);
             promise.then(validateFourthPage);
@@ -318,6 +322,7 @@ function validateThirdPage() {
 function validateFourthPage(response){
     getQuizzes();
     editMode = false;
+    editId = null;
     let fourthScreen = document.getElementById("fourth-screen");
     fourthScreen.innerHTML = `
         <div class="head">
@@ -348,10 +353,10 @@ function isURL(str) {
     var pattern = new RegExp(/^(ftp|http|https):\/\/[^ "]+$/);
     return !!pattern.test(str);
 }
-
 function editQuizz(id){
     currentQuizzObject = quizzesArray.find(quizz => quizz.id === id);
     editMode = true;
+    editId = id;
     const quizzTitle = document.getElementById("quizz-title")
     const quizzBanner = document.getElementById("quizz-banner")
     const questionsQuantity = document.getElementById("questions-quantity")
@@ -389,7 +394,6 @@ function editSecondScreen(){
         }
     }
 }
-
 function editThirdScreen(){
     const oldNumberOfLevels = currentQuizzObject.levels.length
     const quizzInfos = document.querySelectorAll("#third-screen .quizz-info");
@@ -415,7 +419,6 @@ function editThirdScreen(){
         }
     }
 }
-
 function renderScreen(screenNumber, questions){
     if(screenNumber === 2){
         questions = parseInt(questions);
@@ -508,20 +511,16 @@ function renderScreen(screenNumber, questions){
 }
 function deleteQuizz(id) {
     let secretKey = localStorage[id];
-    let deleteObject = {}
 
     if(window.confirm('Realmente deseja excluir o quizz?')) {
         localStorage.removeItem(id, `${secretKey}`);
         let promise = axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/buzzquizz/quizzes/${id}`, {
-            headers: {
-                'Secret-Key': `${secretKey}`
-            }
+            headers: {'Secret-Key': `${secretKey}`}
         });
         promise.then(getQuizzes);
         loadingToggle(true);
     }
 }
-
 function loadingToggle(boolean){
     const screen = document.getElementById("loading-screen")
     if(boolean){
