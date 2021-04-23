@@ -375,7 +375,7 @@ function renderScreen(n, questions){
             let secondScreen = document.getElementById("second-screen");
             let selected;
             if(i===0){selected = " selected"} else {selected = ""};
-            for(i = 0; i < (questions - 3); i++) {
+            for(i = 0; i < questions; i++) {
                 const newQuestion = `
                     <div class="quizz-info${selected}" onclick="openOption(this)">
                         <div class="icon">
