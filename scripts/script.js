@@ -342,19 +342,6 @@ function isURL(str) {
       '(\\#[-a-z\\d_]*)?$','i');
     return !!pattern.test(str);
 }
-function sortUnique(array){
-    const oldArr = Array.from(array).sort((a, b) => a - b);
-    let newArr = []
-    oldArr.forEach((n) => {
-        if (!newArr.includes(n)) {
-            newArr.push(n);
-        }
-    });
-    return newArr;
-}
-function removeFromArray(arr, item){
-   return (arr = arr.filter(n => n !== item));
-}
 
 function editQuizz(id){
     currentQuizzObject = quizzesArray.find(quizz => quizz.id === id);
