@@ -387,6 +387,7 @@ button.back-home{
     border-radius: 5px;
     padding: 0px 15px;
     font-size: 19px;
+    word-break: normal;
 }
 #create-quizz input::placeholder {
     font-style: italic;

@@ -305,11 +305,16 @@ function validateThirdPage() {
     const errorList = document.querySelectorAll("#third-screen .error");
     if(errorList.length === 0) {
         creatingQuizzObject["levels"] = levelsArray;
-        let promise = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/buzzquizz/quizzes', creatingQuizzObject);
-        promise.then(validateFourthPage);
+        if(editMode){
+        //TO-DO Lucas
+        } else{
+            let promise = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/buzzquizz/quizzes', creatingQuizzObject);
+            promise.then(validateFourthPage);
+        }
     }
 }
 function validateFourthPage(response){
+    editMode = false;
     let fourthScreen = document.getElementById("fourth-screen");
     let newQuizz = `
         <div class="quizz" onclick="openQuizz(${response.data.id})">
