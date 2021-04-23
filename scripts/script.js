@@ -513,10 +513,10 @@ function deleteQuizz(id) {
     let secretKey = localStorage[id];
 
     if(window.confirm('Realmente deseja excluir o quizz?')) {
-        localStorage.removeItem(id, `${secretKey}`);
         let promise = axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/buzzquizz/quizzes/${id}`, {
             headers: {'Secret-Key': `${secretKey}`}
         });
+        localStorage.removeItem(id);
         promise.then(getQuizzes);
         loadingToggle(true);
     }
