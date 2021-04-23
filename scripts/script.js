@@ -373,15 +373,13 @@ function renderScreen(n, questions){
         questions = parseInt(questions);
         if(questions > 3) {
             let secondScreen = document.getElementById("second-screen");
-            let button = secondScreen.querySelector(".red-button");
-            let padding = secondScreen.querySelector(".bottom-padding");
-            secondScreen.removeChild(button);
-            secondScreen.removeChild(padding);
+            let selected;
+            if(i===0){selected = " selected"} else {selected = ""};
             for(i = 0; i < (questions - 3); i++) {
                 const newQuestion = `
-                    <div class="quizz-info" onclick="openOption(this)">
+                    <div class="quizz-info${selected}" onclick="openOption(this)">
                         <div class="icon">
-                            <p class="title">Pergunta ${3 + (i + 1)}</p>
+                            <p class="title">Pergunta ${(i + 1)}</p>
                             <ion-icon name="create-outline"></ion-icon>
                         </div>
                         <input class="question-text" type="text" placeholder="Texto da pergunta">
