@@ -41,9 +41,14 @@
                 </div>
                 <div class="quizz-info selected">
                     <input id="quizz-title" type="text" placeholder="Título do seu quizz">
-                    <input id="quizz-banner" type="text" placeholder="URL da imagem do seu quizz">
-                    <input id="questions-quantity" type="text" placeholder="Quantidade de perguntas do quizz">
-                    <input id="levels-quantity" type="text" placeholder="Quantidade de níveis do quizz">
+                    <span class="warning">O título deve ter de 20 a 65 caracteres</span>
+                    <input id="quizz-banner" type="url" placeholder="URL da imagem do seu quizz">
+                    <span class="warning">Insira uma URL válida</span>
+                    <input id="questions-quantity" type="number" placeholder="Quantidade de perguntas do quizz">
+                    <span class="warning">Mínimo de 3 perguntas.</span>
+                    <input id="levels-quantity" type="number" placeholder="Quantidade de níveis do quizz">
+                    <span class="warning">Mínimo de 2 níveis.</span>
+
                 </div>
                 <button class="red-button" onclick="validateFirstPage()">Prosseguir pra criar perguntas</button>
             </div>
@@ -61,6 +66,10 @@
                 <div class="head">
                     Seu quizz está pronto!
                 </div>
+            </div>
+            <div id="loading-screen">
+
+                
             </div>
         </div>
     </div>

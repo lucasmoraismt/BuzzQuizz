@@ -92,8 +92,6 @@ function toggleScreen(selector){
         }, 500)
     }
     lastPageSelector = selector
-    //document.querySelector("#app").scrollTo({left: (window.innerWidth * 2), behavior: 'smooth'});
-    //document.getElementById("app").classList.toggle("right")
 }
 function restartQuizz(id){
     renderQuizz(id);
@@ -189,34 +187,41 @@ function openOption(option) {
     option.previousElementSibling.scrollIntoView({ behavior: 'smooth', block: 'start'});
 }
 
+function showWarning(element){
+    element.classList.add("error")
+    element.nextElementSibling.classList.add("error")
+}
+
+function clearWarnings(selector){
+    const errorList = document.querySelectorAll(`${selector} .error`);
+    errorList.forEach(element => element.classList.remove("error"));
+}
+
 function validateFirstPage(){
-    let errorMessages = [];
-    const quizzTitle = document.getElementById("quizz-title").value
-    const quizzBanner = document.getElementById("quizz-banner").value
-    const questionsQuantity = document.getElementById("questions-quantity").value
-    const levelsQuantity = document.getElementById("levels-quantity").value
-    if(quizzTitle.length < 20 || quizzTitle.length > 65){
-        errorMessages.push("O título deve ter de 20 a 65 caracteres.");
+    const quizzTitle = document.getElementById("quizz-title")
+    const quizzBanner = document.getElementById("quizz-banner")
+    const questionsQuantity = document.getElementById("questions-quantity")
+    const levelsQuantity = document.getElementById("levels-quantity")
+    clearWarnings("#first-screen")
+    if(quizzTitle.value.length < 20 || quizzTitle.value.length > 65){
+        showWarning(quizzTitle)
     }
-    if(!isURL(quizzBanner)){
-        errorMessages.push("Insira uma URL válida.");
+    if(!isURL(quizzBanner.value)){
+        showWarning(quizzBanner)
     }
-    if(questionsQuantity < 3){
-        errorMessages.push("Mínimo de 3 perguntas.");   
+    if(questionsQuantity.value < 3){
+        showWarning(questionsQuantity)
     }
-    if(levelsQuantity < 2){
-        errorMessages.push("Mínimo de 2 níveis.");   
+    if(levelsQuantity.value < 2){
+        showWarning(levelsQuantity)
     }
-    if(errorMessages.length === 0){
-        creatingQuizzObject["title"] = quizzTitle;
-        creatingQuizzObject["image"] = quizzBanner;
-        levelsNumber = levelsQuantity;
-        questionsNumber = parseInt(questionsQuantity);
-        renderScreen(2, questionsQuantity);
-    } else{
-        let alertMessage = '';
-        errorMessages.forEach(msg => alertMessage += msg + "\n");
-        alert(alertMessage);
+    const errorList = document.querySelectorAll("#first-screen .error");
+    if(errorList.length === 0){
+        creatingQuizzObject["title"] = quizzTitle.value;
+        creatingQuizzObject["image"] = quizzBanner.value;
+        levelsNumber = levelsQuantity.value;
+        questionsNumber = parseInt(questionsQuantity.value);
+        renderScreen(2, questionsQuantity.value);
     }
 };
 function validateSecondPage(){
@@ -226,30 +231,31 @@ function validateSecondPage(){
     let unfilteredValidWrongs = [];
     let filteredValidWrongs = [];
     const questions = document.querySelectorAll("#second-screen .quizz-info");
+    clearWarnings("#second-screen");
     questions.forEach((question, iterations) => {
         let questionObject = {};
         let answerArray = [];
-        const questionText = question.querySelector(".question-text").value;
-        const questionColor = question.querySelector(".question-color").value;
-        const rightAnswer = question.querySelector(".right-answer").value;
-        const rightImage = question.querySelector(".right-image").value;
+        const questionText = question.querySelector(".question-text");
+        const questionColor = question.querySelector(".question-color");
+        const rightAnswer = question.querySelector(".right-answer");
+        const rightImage = question.querySelector(".right-image");
         const wrongAnswerArray = question.querySelectorAll(".wrong-answer");
         const wrongImageArray = question.querySelectorAll(".wrong-image");
-        if(questionText.length < 20){
-            unfilteredErrors.push("A pergunta deve ter no mínimo 20 caracteres.");
+        if(questionText.value.length < 20){
+            showWarning(questionText)
         }       
-        if(!isHex(questionColor)){
-            unfilteredErrors.push("A cor deve estar em hexadecimal.");
+        if(!isHex(questionColor.value)){
+            showWarning(questionColor)
         }
-        if(rightAnswer === ""){
-            unfilteredErrors.push("Resposta correta não pode estar vazia.");   
+        if(rightAnswer.value === ""){
+            showWarning(rightAnswer)
         }
-        if(!isURL(rightImage)){
-            unfilteredErrors.push("Insira uma URL válida.");   
+        if(!isURL(rightImage.value)){
+            showWarning(rightImage)
         }
-        questionObject["title"] = questionText;
-        questionObject["color"] = questionColor;
-        answerArray.push({text: rightAnswer, image: rightImage, isCorrectAnswer: true});
+        questionObject["title"] = questionText.value;
+        questionObject["color"] = questionColor.value;
+        answerArray.push({text: rightAnswer.value, image: rightImage.value, isCorrectAnswer: true});
         for (let i = 0; i < wrongAnswerArray.length; i++) {
             const text = wrongAnswerArray[i].value;
             const img = wrongImageArray[i].value;
@@ -265,6 +271,7 @@ function validateSecondPage(){
     });
     filteredErrors = sortUnique(unfilteredErrors);
     filteredValidWrongs = sortUnique(unfilteredValidWrongs);
+    const errorList = document.querySelectorAll("#second-screen .error");
     if(filteredValidWrongs.length === questionsNumber){
         const item = "Insira a resposta incorreta com uma imagem."
         filteredErrors = removeFromArray(filteredErrors, item)
@@ -279,44 +286,38 @@ function validateSecondPage(){
     }
 }
 function validateThirdPage() {
-    let errorMessages = [];
-    let percentage = [];
-    let levelsArray = []
+    let levelsArray = [];
     const levels = document.querySelectorAll("#third-screen .quizz-info");
+    clearWarnings("#third-screen");
     levels.forEach(level => {
         let levelObject = {};
-        const levelTitle = level.querySelector(".level-title").value;
-        const levelPercent = level.querySelector(".minimum-rights").value;
-        const levelImage = level.querySelector(".level-image").value;
-        const levelDescription = level.querySelector(".description").value;
-        if(levelTitle.length < 10){
-            errorMessages.push("O título deve ter no mínimo 10 caracteres.");
+        const levelTitle = level.querySelector(".level-title");
+        const levelPercent = level.querySelector(".minimum-rights");
+        const levelImage = level.querySelector(".level-image");
+        const levelDescription = level.querySelector(".description");
+        if(levelTitle.value.length < 10){
+            showWarning(levelTitle)
         }
-        if(levelDescription === ""){
-            errorMessages.push("A descrição não pode estar vazia.");   
+        if(levelPercent.value === ""){
+            showWarning(levelPercent)
         }
-        if(!isURL(levelImage)){
-            errorMessages.push("Insira uma URL válida.");   
+        if(levelDescription.value === ""){
+            showWarning(levelDescription)
         }
-        percentage.push(levelPercent);
-        levelObject["title"] = levelTitle;
-        levelObject["image"] = levelImage;
-        levelObject["text"] = levelDescription;
-        levelObject["minValue"] = levelPercent;
+        if(!isURL(levelImage.value)){
+            showWarning(levelImage)
+        }
+        levelObject["title"] = levelTitle.value;
+        levelObject["image"] = levelImage.value;
+        levelObject["text"] = levelDescription.value;
+        levelObject["minValue"] = levelPercent.value;
         levelsArray.push(levelObject);
     });
-    if(!percentage.includes("0")) {
-        errorMessages.push("Faltando nível com 0% de acerto mínimo.");
-    }
-    if(errorMessages.length === 0) {
+    const errorList = document.querySelectorAll("#third-screen .error");
+    if(errorList.length === 0) {
         creatingQuizzObject["levels"] = levelsArray;
         let promise = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/buzzquizz/quizzes', creatingQuizzObject);
-
         promise.then(validateFourthPage);
-    } else {
-        let alertMessage = '';
-        errorMessages.forEach(msg => alertMessage += msg + "\n");
-        alert(alertMessage);
     }
 }
 function validateFourthPage(response){
@@ -382,17 +383,27 @@ function renderScreen(n, questions){
                             <ion-icon name="create-outline"></ion-icon>
                         </div>
                         <input class="question-text" type="text" placeholder="Texto da pergunta">
+                        <span class="warning">A pergunta deve ter no mínimo 20 caracteres</span>
                         <input class="question-color" type="text" placeholder="Cor de fundo da pergunta">
+                        <span class="warning">A cor deve estar em hexadecimal.</span>
                         <p class="title">Resposta correta</p>
                         <input class="right-answer" type="text" placeholder="Resposta correta">
-                        <input class="right-image" type="text" placeholder="URL da imagem">
+                        <span class="warning">Resposta correta não pode estar vazia</span>
+                        <input class="right-image" type="url" placeholder="URL da imagem">
+                        <span class="warning">Insira uma URL válida</span>
                         <p class="title">Respostas incorretas</p>
                         <input class="wrong-answer" type="text" placeholder="Resposta incorreta 1">
-                        <input class="wrong-image" type="text" placeholder="URL da imagem 1">
+                        <span class="warning">O título deve ter de 20 a 65 caracteres</span>
+                        <input class="wrong-image" type="url" placeholder="URL da imagem 1">
+                        <span class="warning">O título deve ter de 20 a 65 caracteres</span>
                         <input class="wrong-answer" type="text" placeholder="Resposta incorreta 2">
-                        <input class="wrong-image" type="text" placeholder="URL da imagem 2">
+                        <span class="warning">O título deve ter de 20 a 65 caracteres</span>
+                        <input class="wrong-image" type="url" placeholder="URL da imagem 2">
+                        <span class="warning">O título deve ter de 20 a 65 caracteres</span>
                         <input class="wrong-answer" type="text" placeholder="Resposta incorreta 3">
-                        <input class="wrong-image" type="text" placeholder="URL da imagem 3">
+                        <span class="warning">O título deve ter de 20 a 65 caracteres</span>
+                        <input class="wrong-image" type="url" placeholder="URL da imagem 3">
+                        <span class="warning">O título deve ter de 20 a 65 caracteres</span>
                     </div>`
                 secondScreen.innerHTML += newQuestion;
             }
@@ -404,8 +415,15 @@ function renderScreen(n, questions){
         levelsNumber = parseInt(levelsNumber);
             let thirdScreen = document.getElementById("third-screen");
             let selected;
+            let disabled;
             for(i = 0; i < levelsNumber; i++) {
-                if(i===0){selected = " selected"} else {selected = ""};
+                if(i===0){
+                    selected = " selected"
+                    disabled = " value='0' disabled"
+                } else {
+                    selected = ""
+                    disabled = " min='1' max='100'"
+                };
                 const newLevel = `
                     <div class="quizz-info${selected}" onclick="openOption(this)">
                         <div class="icon">
@@ -413,9 +431,13 @@ function renderScreen(n, questions){
                             <ion-icon name="create-outline"></ion-icon>
                         </div>
                         <input class="level-title" type="text" placeholder="Título do nível">
-                        <input class="minimum-rights" type="text" placeholder="% de acerto mínima">
-                        <input class="level-image" type="text" placeholder="URL da imagem do nível">
+                        <span class="warning">O título deve ter no mínimo 10 caracteres</span>
+                        <input class="minimum-rights" type="number" placeholder="% de acerto mínima"${disabled}>
+                        <span class="warning">Digite uma porcentagem de acertos</span>
+                        <input class="level-image" type="url" placeholder="URL da imagem do nível">
+                        <span class="warning">Insira uma URL válida</span>
                         <textarea class="description" placeholder="Descrição do nível"></textarea>
+                        <span class="warning">A descrição não pode estar vazia.</span>
                     </div>`;
                 thirdScreen.innerHTML += newLevel;
             }
