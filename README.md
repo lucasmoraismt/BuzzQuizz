@@ -90,7 +90,7 @@ The following tools were used in the construction of the project:
 -   **[![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)](https://www.w3.org/Style/CSS/Overview.en.html)**
 -   **[![Pure JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://www.javascript.com/)**
 
-#### **Utilitários**
+#### **Utilities**
 
 -   Prototype:  **[Figma](https://www.figma.com/)**  →  **[Protótipo (Bate Papo)](https://www.figma.com/file/nCuPD1re0r4EAwNl7OCNvz/BuzzQuizz---Turma-02?node-id=0%3A1)**
 -   Editor:  **[Visual Studio Code](https://code.visualstudio.com/)**
