@@ -329,7 +329,7 @@ function validateFourthPage(response){
             Seu quizz está pronto!
         </div>`;
     let newQuizz = `
-        <div class="quizz" onclick="openQuizz(${response.data.id})">
+        <div class="quizz just-created" onclick="openQuizz(${response.data.id})">
             <img src="${response.data.image}">
             <div id="gradient">
                 <p class="quizz-title">${response.data.title}</p>

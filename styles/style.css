@@ -97,6 +97,9 @@ body {
     background-position: center;
     background-size: cover;
 }
+.quizz.just-created{
+    height: auto;
+}
 .quizz img {
     width: 100%;
     height: 100%;
@@ -305,7 +308,6 @@ button.back-home{
     max-width: 600px;
 }
 #fourth-screen .quizz{
-    width: 90vw;
     margin-bottom: 25px;
 }
 #loading-screen{
@@ -322,7 +324,7 @@ button.back-home{
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    transition: .5s;
+    transition: .4s;
     color: #EC362D;
     font-size: 25px;
     display: flex;
