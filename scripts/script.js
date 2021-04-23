@@ -224,7 +224,7 @@ function validateSecondPage(){
     let questionsArray = [];
     const questions = document.querySelectorAll("#second-screen .quizz-info");
     clearWarnings("#second-screen");
-    questions.forEach((question, iteration) => {
+    questions.forEach((question) => {
         let questionObject = {};
         let answerArray = [];
         const questionText = question.querySelector(".question-text");
@@ -334,18 +334,13 @@ function isHex(string){
     return false;
 }
 function isURL(str) {
-    var pattern = new RegExp('^(https?:\\/\\/)?'+
-      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+
-      '((\\d{1,3}\\.){3}\\d{1,3}))'+
-      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+
-      '(\\?[;&a-z\\d%_.~+=-]*)?'+
-      '(\\#[-a-z\\d_]*)?$','i');
+    var pattern = new RegExp(/^(ftp|http|https):\/\/[^ "]+$/);
     return !!pattern.test(str);
 }
 
 function editQuizz(id){
     currentQuizzObject = quizzesArray.find(quizz => quizz.id === id);
-    editMode = false;
+    editMode = true;
     const quizzTitle = document.getElementById("quizz-title")
     const quizzBanner = document.getElementById("quizz-banner")
     const questionsQuantity = document.getElementById("questions-quantity")
@@ -356,48 +351,77 @@ function editQuizz(id){
     levelsQuantity.value = currentQuizzObject.levels.length
     toggleScreen("#first-screen")
 }
+function editSecondScreen(){
+    const oldNumberOfQuestions = currentQuizzObject.questions.length
+    const quizzInfos = document.querySelectorAll("#second-screen .quizz-info");
+    for (let i = 0; i < quizzInfos.length; i++) {
+        if(i < oldNumberOfQuestions){
+            const questionText = quizzInfos[i].querySelector(".question-text");
+            const questionColor = quizzInfos[i].querySelector(".question-color");
+            const rightAnswer = quizzInfos[i].querySelector(".right-answer");
+            const rightImage = quizzInfos[i].querySelector(".right-image");
+            const wrongAnswerArray = quizzInfos[i].querySelectorAll(".wrong-answer");
+            const wrongImageArray = quizzInfos[i].querySelectorAll(".wrong-image");
+            questionText.value = currentQuizzObject.questions[i].title
+            questionColor.value = currentQuizzObject.questions[i].color
+            let j = 0
+            currentQuizzObject.questions[i].answers.forEach((answer) => {
+                if (answer.isCorrectAnswer === true){
+                    rightAnswer.value = answer.text;
+                    rightImage.value = answer.image;
+                } else {
+                    wrongAnswerArray[j].value = answer.text;
+                    wrongImageArray[j].value = answer.image;
+                    j++;
+                }
+            });
+        }
+        
+    }
+}
 
 function renderScreen(screenNumber, questions){
     if(screenNumber === 2){
         questions = parseInt(questions);
-            let secondScreen = document.getElementById("second-screen");
-            let selected;
-            for(i = 0; i < questions; i++) {
-                if(i===0){selected = " selected"} else {selected = ""};
-                const newQuestion = `
-                    <div class="quizz-info${selected}" onclick="openOption(this)">
-                        <div class="icon">
-                            <p class="title">Pergunta ${(i + 1)}</p>
-                            <ion-icon name="create-outline"></ion-icon>
-                        </div>
-                        <input class="question-text" type="text" placeholder="Texto da pergunta">
-                        <span class="warning">A pergunta deve ter no mínimo 20 caracteres</span>
-                        <input class="question-color" type="text" placeholder="Cor de fundo da pergunta">
-                        <span class="warning">A cor deve estar em hexadecimal.</span>
-                        <p class="title">Resposta correta</p>
-                        <input class="right-answer" type="text" placeholder="Resposta correta">
-                        <span class="warning">Resposta correta não pode estar vazia</span>
-                        <input class="right-image" type="url" placeholder="URL da imagem">
-                        <span class="warning">Insira uma URL válida</span>
-                        <p class="title">Respostas incorretas</p>
-                        <input class="wrong-answer" type="text" placeholder="Resposta incorreta 1">
-                        <span class="warning">Insira uma resposta incorreta</span>
-                        <input class="wrong-image" type="url" placeholder="URL da imagem 1">
-                        <span class="warning">Insira uma URL válida</span>
-                        <input class="wrong-answer" type="text" placeholder="Resposta incorreta 2">
-                        <span class="warning">Insira um texo para a imagem incorreta</span>
-                        <input class="wrong-image" type="url" placeholder="URL da imagem 2">
-                        <span class="warning">Insira uma URL válida</span>
-                        <input class="wrong-answer" type="text" placeholder="Resposta incorreta 3">
-                        <span class="warning">Insira um texo para a imagem incorreta</span>
-                        <input class="wrong-image" type="url" placeholder="URL da imagem 3">
-                        <span class="warning">Insira uma URL válida</span>
-                    </div>`
-                secondScreen.innerHTML += newQuestion;
-            }
-            secondScreen.innerHTML += `
-                <button class="red-button" onclick="validateSecondPage()">Prosseguir pra criar níveis</button>
-                <div class="bottom-padding">&nbsp;</div>`
+        let secondScreen = document.getElementById("second-screen");
+        let selected;
+        for(i = 0; i < questions; i++) {
+            if(i===0){selected = " selected"} else {selected = ""};
+            const newQuestion = `
+                <div class="quizz-info${selected}" onclick="openOption(this)">
+                    <div class="icon">
+                        <p class="title">Pergunta ${(i + 1)}</p>
+                        <ion-icon name="create-outline"></ion-icon>
+                    </div>
+                    <input class="question-text" type="text" placeholder="Texto da pergunta">
+                    <span class="warning">A pergunta deve ter no mínimo 20 caracteres</span>
+                    <input class="question-color" type="text" placeholder="Cor de fundo da pergunta">
+                    <span class="warning">A cor deve estar em hexadecimal.</span>
+                    <p class="title">Resposta correta</p>
+                    <input class="right-answer" type="text" placeholder="Resposta correta">
+                    <span class="warning">Resposta correta não pode estar vazia</span>
+                    <input class="right-image" type="url" placeholder="URL da imagem">
+                    <span class="warning">Insira uma URL válida</span>
+                    <p class="title">Respostas incorretas</p>
+                    <input class="wrong-answer" type="text" placeholder="Resposta incorreta 1">
+                    <span class="warning">Insira uma resposta incorreta</span>
+                    <input class="wrong-image" type="url" placeholder="URL da imagem 1">
+                    <span class="warning">Insira uma URL válida</span>
+                    <input class="wrong-answer" type="text" placeholder="Resposta incorreta 2">
+                    <span class="warning">Insira um texo para a imagem incorreta</span>
+                    <input class="wrong-image" type="url" placeholder="URL da imagem 2">
+                    <span class="warning">Insira uma URL válida</span>
+                    <input class="wrong-answer" type="text" placeholder="Resposta incorreta 3">
+                    <span class="warning">Insira um texo para a imagem incorreta</span>
+                    <input class="wrong-image" type="url" placeholder="URL da imagem 3">
+                    <span class="warning">Insira uma URL válida</span>
+                </div>`
+            secondScreen.innerHTML += newQuestion;
+        }
+        secondScreen.innerHTML += `
+            <button class="red-button" onclick="validateSecondPage()">Prosseguir pra criar níveis</button>
+            <div class="bottom-padding">&nbsp;</div>`
+        if(editMode){editSecondScreen()}    
         toggleScreen('#second-screen')
     } else if(screenNumber === 3){
         levelsNumber = parseInt(levelsNumber);
