@@ -311,13 +311,13 @@ function validateThirdPage() {
 function validateFourthPage(response){
     let fourthScreen = document.getElementById("fourth-screen");
     let newQuizz = `
-        <div class="quizz" onclick="renderQuizz(${response.data.id})">
+        <div class="quizz" onclick="openQuizz(${response.data.id})">
             <img src="${response.data.image}">
             <div id="gradient">
                 <p class="quizz-title">${response.data.title}</p>
             </div>
         </div>
-        <button class="red-button" onclick="renderQuizz(${response.data.id})">Acessar Quizz</button>
+        <button class="red-button" onclick="openQuizz(${response.data.id})">Acessar Quizz</button>
         <button class="back-home" onclick="toggleScreen('.back-home')">Voltar pra home</button>`
     fourthScreen.innerHTML += newQuizz;
     setLocalStorage(response.data.id, response.data.key);
