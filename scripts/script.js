@@ -48,13 +48,13 @@ function displayQuizzes(response) {
                         <p class="quizz-title">${quizz.title}</p>
                     </div>
                     <div class="edit-delete">
-                    <div class="edit" onclick="editQuizz(${quizz.id})">
-                        <ion-icon name="create-outline"></ion-icon>
+                        <div class="edit" onclick="editQuizz(${quizz.id})">
+                            <ion-icon name="create-outline"></ion-icon>
+                        </div>
+                        <div class="delete" onclick="deleteQuizz(${quizz.id})">
+                            <ion-icon name="trash-outline"></ion-icon>
+                        </div>
                     </div>
-                    <div class="delete" onclick="deleteQuizz(${quizz.id})">
-                        <ion-icon name="trash-outline"></ion-icon>
-                    </div>
-                </div>
                 </li>
                 `
             yourQuizzes.innerHTML += quizzHTML;
