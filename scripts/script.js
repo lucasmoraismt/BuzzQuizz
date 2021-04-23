@@ -217,9 +217,9 @@ function validateBasicInfo(){
     if(errorList.length === 0){
         newQuizzObject["title"] = quizzTitle.value;
         newQuizzObject["image"] = quizzBanner.value;
-        levelsNumber = levelsQuantity.value;
+        levelsNumber = parseInt(levelsQuantity.value);
         questionsNumber = parseInt(questionsQuantity.value);
-        renderScreen(2, questionsQuantity.value);
+        renderQuestionsScreen();
     }
 };
 function validateQuizzQuestions(){
@@ -273,7 +273,7 @@ function validateQuizzQuestions(){
     const errorList = document.querySelectorAll("#quizz-questions-screen .error");
     if(errorList.length === 0){
         newQuizzObject["questions"] = questionsArray;
-        renderScreen(3)
+        renderLevelsScreen()
     }
 }
 function validateQuizzLevels() {
@@ -339,7 +339,7 @@ function quizzSuccess(response){
     successScreen.innerHTML += newQuizz;
     setLocalStorage(response.data.id, response.data.key);
     levelsNumber = null;
-    renderScreen(4);
+    toggleScreen('#quizz-success-screen');
 }
 function isHex(string){
     const re = /[0-9A-Fa-f]{6}/g;
@@ -366,7 +366,7 @@ function editQuizz(id){
     levelsQuantity.value = currentQuizzObject.levels.length
     toggleScreen("#basic-info-screen")
 }
-function editSecondScreen(){
+function editQuestions(){
     const oldNumberOfQuestions = currentQuizzObject.questions.length
     const quizzInfos = document.querySelectorAll("#quizz-questions-screen .quizz-info");
     for (let i = 0; i < quizzInfos.length; i++) {
@@ -393,7 +393,7 @@ function editSecondScreen(){
         }
     }
 }
-function editThirdScreen(){
+function editLevels(){
     const oldNumberOfLevels = currentQuizzObject.levels.length
     const quizzInfos = document.querySelectorAll("#quizz-levels-screen .quizz-info");
     const firstLevel = currentQuizzObject.levels.filter(level => level.minValue === (0 || "0"));
@@ -418,95 +418,90 @@ function editThirdScreen(){
         }
     }
 }
-function renderScreen(screenNumber, questions){
-    if(screenNumber === 2){
-        questions = parseInt(questions);
-        let secondScreen = document.getElementById("quizz-questions-screen");
-        let selected;
-        secondScreen.innerHTML = `
-            <div class="head">
-                Crie suas perguntas
-            </div>`;
-        for(i = 0; i < questions; i++) {
-            if(i===0){selected = " selected"} else {selected = ""};
-            const newQuestion = `
-                <div class="quizz-info${selected}" onclick="openOption(this)">
-                    <div class="icon">
-                        <p class="title">Pergunta ${(i + 1)}</p>
-                        <ion-icon name="create-outline"></ion-icon>
-                    </div>
-                    <input class="question-text" type="text" placeholder="Texto da pergunta">
-                    <span class="warning">A pergunta deve ter no mínimo 20 caracteres</span>
-                    <input class="question-color" type="text" placeholder="Cor de fundo da pergunta">
-                    <span class="warning">A cor deve estar em hexadecimal.</span>
-                    <p class="title">Resposta correta</p>
-                    <input class="right-answer" type="text" placeholder="Resposta correta">
-                    <span class="warning">Resposta correta não pode estar vazia</span>
-                    <input class="right-image" type="url" placeholder="URL da imagem">
-                    <span class="warning">Insira uma URL válida</span>
-                    <p class="title">Respostas incorretas</p>
-                    <input class="wrong-answer" type="text" placeholder="Resposta incorreta 1">
-                    <span class="warning">Insira uma resposta incorreta</span>
-                    <input class="wrong-image" type="url" placeholder="URL da imagem 1">
-                    <span class="warning">Insira uma URL válida</span>
-                    <input class="wrong-answer" type="text" placeholder="Resposta incorreta 2">
-                    <span class="warning">Insira um texo para a imagem incorreta</span>
-                    <input class="wrong-image" type="url" placeholder="URL da imagem 2">
-                    <span class="warning">Insira uma URL válida</span>
-                    <input class="wrong-answer" type="text" placeholder="Resposta incorreta 3">
-                    <span class="warning">Insira um texo para a imagem incorreta</span>
-                    <input class="wrong-image" type="url" placeholder="URL da imagem 3">
-                    <span class="warning">Insira uma URL válida</span>
-                </div>`
-            secondScreen.innerHTML += newQuestion;
-        }
-        secondScreen.innerHTML += `
-            <button class="red-button" onclick="validateQuizzQuestions()">Prosseguir pra criar níveis</button>
-            <div class="bottom-padding">&nbsp;</div>`
-        if(editMode){editSecondScreen()}    
-        toggleScreen('#quizz-questions-screen')
-    } else if(screenNumber === 3){
-        levelsNumber = parseInt(levelsNumber);
-        let thirdScreen = document.getElementById("quizz-levels-screen");
-        let selected;
-        let disabled;
-        thirdScreen.innerHTML = `                
-            <div class="head">
-                Agora, decida os níveis
-            </div>`;
-        for(i = 0; i < levelsNumber; i++) {
-            if(i===0){
-                selected = " selected"
-                disabled = " value='0' disabled"
-            } else {
-                selected = ""
-                disabled = " min='1' max='100'"
-            };
-            const newLevel = `
-                <div class="quizz-info${selected}" onclick="openOption(this)">
-                    <div class="icon">
-                        <p class="title">Nível ${(i + 1)}</p>
-                        <ion-icon name="create-outline"></ion-icon>
-                    </div>
-                    <input class="level-title" type="text" placeholder="Título do nível">
-                    <span class="warning">O título deve ter no mínimo 10 caracteres</span>
-                    <input class="minimum-rights" type="number" placeholder="% de acerto mínima"${disabled}>
-                    <span class="warning">Digite uma porcentagem mínima de acertos</span>
-                    <input class="level-image" type="url" placeholder="URL da imagem do nível">
-                    <span class="warning">Insira uma URL válida</span>
-                    <textarea class="description" placeholder="Descrição do nível"></textarea>
-                    <span class="warning">A descrição não pode estar vazia.</span>
-                </div>`;
-            thirdScreen.innerHTML += newLevel;
-        }
-        thirdScreen.innerHTML += `
-            <button class="red-button" onclick="validateQuizzLevels()">Finalizar Quizz</button>
-            <div class="bottom-padding">&nbsp;</div>`
-        if(editMode){editThirdScreen()}    
-        toggleScreen('#quizz-levels-screen')
-    } else if(screenNumber === 4){
-        toggleScreen('#quizz-success-screen')
+function renderQuestionsScreen(){
+    let questionsScreen = document.getElementById("quizz-questions-screen");
+    let selected;
+    questionsScreen.innerHTML = `
+        <div class="head">
+            Crie suas perguntas
+        </div>`;
+    for(i = 0; i < questionsNumber; i++) {
+        if(i===0){selected = " selected"} else {selected = ""};
+        const newQuestion = `
+            <div class="quizz-info${selected}" onclick="openOption(this)">
+                <div class="icon">
+                    <p class="title">Pergunta ${(i + 1)}</p>
+                    <ion-icon name="create-outline"></ion-icon>
+                </div>
+                <input class="question-text" type="text" placeholder="Texto da pergunta">
+                <span class="warning">A pergunta deve ter no mínimo 20 caracteres</span>
+                <input class="question-color" type="text" placeholder="Cor de fundo da pergunta">
+                <span class="warning">A cor deve estar em hexadecimal.</span>
+                <p class="title">Resposta correta</p>
+                <input class="right-answer" type="text" placeholder="Resposta correta">
+                <span class="warning">Resposta correta não pode estar vazia</span>
+                <input class="right-image" type="url" placeholder="URL da imagem">
+                <span class="warning">Insira uma URL válida</span>
+                <p class="title">Respostas incorretas</p>
+                <input class="wrong-answer" type="text" placeholder="Resposta incorreta 1">
+                <span class="warning">Insira uma resposta incorreta</span>
+                <input class="wrong-image" type="url" placeholder="URL da imagem 1">
+                <span class="warning">Insira uma URL válida</span>
+                <input class="wrong-answer" type="text" placeholder="Resposta incorreta 2">
+                <span class="warning">Insira um texo para a imagem incorreta</span>
+                <input class="wrong-image" type="url" placeholder="URL da imagem 2">
+                <span class="warning">Insira uma URL válida</span>
+                <input class="wrong-answer" type="text" placeholder="Resposta incorreta 3">
+                <span class="warning">Insira um texo para a imagem incorreta</span>
+                <input class="wrong-image" type="url" placeholder="URL da imagem 3">
+                <span class="warning">Insira uma URL válida</span>
+            </div>`
+        questionsScreen.innerHTML += newQuestion;
     }
+    questionsScreen.innerHTML += `
+        <button class="red-button" onclick="validateQuizzQuestions()">Prosseguir pra criar níveis</button>
+        <div class="bottom-padding">&nbsp;</div>`
+    if(editMode){editQuestions()}    
+    toggleScreen('#quizz-questions-screen')
+}
+function renderLevelsScreen(){
+    let levelsScreen = document.getElementById("quizz-levels-screen");
+    let selected;
+    let disabled;
+    levelsScreen.innerHTML = `                
+        <div class="head">
+            Agora, decida os níveis
+        </div>`;
+    for(i = 0; i < levelsNumber; i++) {
+        if(i===0){
+            selected = " selected"
+            disabled = " value='0' disabled"
+        } else {
+            selected = ""
+            disabled = " min='1' max='100'"
+        };
+        const newLevel = `
+            <div class="quizz-info${selected}" onclick="openOption(this)">
+                <div class="icon">
+                    <p class="title">Nível ${(i + 1)}</p>
+                    <ion-icon name="create-outline"></ion-icon>
+                </div>
+                <input class="level-title" type="text" placeholder="Título do nível">
+                <span class="warning">O título deve ter no mínimo 10 caracteres</span>
+                <input class="minimum-rights" type="number" placeholder="% de acerto mínima"${disabled}>
+                <span class="warning">Digite uma porcentagem mínima de acertos</span>
+                <input class="level-image" type="url" placeholder="URL da imagem do nível">
+                <span class="warning">Insira uma URL válida</span>
+                <textarea class="description" placeholder="Descrição do nível"></textarea>
+                <span class="warning">A descrição não pode estar vazia.</span>
+            </div>`;
+        levelsScreen.innerHTML += newLevel;
+    }
+    levelsScreen.innerHTML += `
+        <button class="red-button" onclick="validateQuizzLevels()">Finalizar Quizz</button>
+        <div class="bottom-padding">&nbsp;</div>`
+    if(editMode){editLevels()}    
+    toggleScreen('#quizz-levels-screen');
 }
 function deleteQuizz(id) {
     let secretKey = localStorage[id];
