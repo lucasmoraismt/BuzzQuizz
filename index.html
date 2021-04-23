@@ -22,49 +22,44 @@
         <div id="quizzes-list">
             <div class="start-quizz">
                 <p>Você não criou nenhum <br>quizz ainda :(</p>
-                <button onclick="toggleScreen('#first-screen')">Criar Quizz</button>
+                <button onclick="toggleScreen('#basic-info-screen')">Criar Quizz</button>
             </div>
             <ul class="your-quizzes">
             </ul>
-
             <ul class="all-quizzes">
             </ul>
         </div>
-
         <div id="inside-quizz">
         </div>
-
-        <div id="create-quizz">
-            <div id="first-screen" >
-                <div class="head">
-                    Comece pelo começo
-                </div>
-                <div class="quizz-info selected">
-                    <input id="quizz-title" type="text" placeholder="Título do seu quizz">
-                    <span class="warning">O título deve ter de 20 a 65 caracteres</span>
-                    <input id="quizz-banner" type="url" placeholder="URL da imagem do seu quizz">
-                    <span class="warning">Insira uma URL válida</span>
-                    <input id="questions-quantity" type="number" min="3" placeholder="Quantidade de perguntas do quizz">
-                    <span class="warning">Mínimo de 3 perguntas.</span>
-                    <input id="levels-quantity" type="number" min="2" placeholder="Quantidade de níveis do quizz">
-                    <span class="warning">Mínimo de 2 níveis.</span>
-
-                </div>
-                <button class="red-button" onclick="validateFirstPage()">Prosseguir pra criar perguntas</button>
+        <div id="basic-info-screen" >
+            <div class="head">
+                Comece pelo começo
             </div>
-            <div id="second-screen">
+            <div class="quizz-info selected">
+                <input id="quizz-title" type="text" placeholder="Título do seu quizz">
+                <span class="warning">O título deve ter de 20 a 65 caracteres</span>
+                <input id="quizz-banner" type="url" placeholder="URL da imagem do seu quizz">
+                <span class="warning">Insira uma URL válida</span>
+                <input id="questions-quantity" type="number" min="3" placeholder="Quantidade de perguntas do quizz">
+                <span class="warning">Mínimo de 3 perguntas.</span>
+                <input id="levels-quantity" type="number" min="2" placeholder="Quantidade de níveis do quizz">
+                <span class="warning">Mínimo de 2 níveis.</span>
 
             </div>
-            <div id="third-screen">
+            <button class="red-button" onclick="validateBasicInfo()">Prosseguir pra criar perguntas</button>
+        </div>
+        <div id="quizz-questions-screen">
 
-            </div>
-            <div id="fourth-screen">
+        </div>
+        <div id="quizz-levels-screen">
 
-            </div>
-            <div id="loading-screen">
-                <img src="media/loading.gif">
-                <span>Carregando</span>
-            </div>
+        </div>
+        <div id="quizz-success-screen">
+
+        </div>
+        <div id="loading-screen">
+            <img src="media/loading.gif">
+            <span>Carregando</span>
         </div>
     </div>
 

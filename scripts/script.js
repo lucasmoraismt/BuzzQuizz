@@ -1,7 +1,7 @@
 
 let quizzesArray = [];
 let currentQuizzObject = {};
-let creatingQuizzObject = {};
+let newQuizzObject = {};
 let levelsNumber = null;
 let questionsNumber = null;
 let lastPageSelector = "body";
@@ -28,7 +28,7 @@ function displayQuizzes(response) {
     yourQuizzes.innerHTML = `
         <div>
             <p class="title">Seus Quizzes</p>
-            <ion-icon name="add-circle" onclick="toggleScreen('#first-screen')"></ion-icon>
+            <ion-icon name="add-circle" onclick="toggleScreen('#basic-info-screen')"></ion-icon>
         </div>`
     quizzesArray = response.data;
     for (i = 0; i < quizzesArray.length; i++) {
@@ -81,7 +81,6 @@ function toggleScreen(selector){
     const bodyStyle = document.querySelector("body").style
     const lastPage = document.querySelector(lastPageSelector)
     if(selector === ".back-home"){
-        getQuizzes();
         lastPage.style.left = "100%";
         bodyStyle.overflow = "scroll";
         setTimeout(function(){
@@ -196,12 +195,12 @@ function clearWarnings(selector){
     const errorList = document.querySelectorAll(`${selector} .error`);
     errorList.forEach(element => element.classList.remove("error"));
 }
-function validateFirstPage(){
+function validateBasicInfo(){
     const quizzTitle = document.getElementById("quizz-title")
     const quizzBanner = document.getElementById("quizz-banner")
     const questionsQuantity = document.getElementById("questions-quantity")
     const levelsQuantity = document.getElementById("levels-quantity")
-    clearWarnings("#first-screen")
+    clearWarnings("#basic-info-screen")
     if(quizzTitle.value.length < 20 || quizzTitle.value.length > 65){
         showWarning(quizzTitle)
     }
@@ -214,19 +213,19 @@ function validateFirstPage(){
     if(levelsQuantity.value < 2){
         showWarning(levelsQuantity)
     }
-    const errorList = document.querySelectorAll("#first-screen .error");
+    const errorList = document.querySelectorAll("#basic-info-screen .error");
     if(errorList.length === 0){
-        creatingQuizzObject["title"] = quizzTitle.value;
-        creatingQuizzObject["image"] = quizzBanner.value;
+        newQuizzObject["title"] = quizzTitle.value;
+        newQuizzObject["image"] = quizzBanner.value;
         levelsNumber = levelsQuantity.value;
         questionsNumber = parseInt(questionsQuantity.value);
         renderScreen(2, questionsQuantity.value);
     }
 };
-function validateSecondPage(){
+function validateQuizzQuestions(){
     let questionsArray = [];
-    const questions = document.querySelectorAll("#second-screen .quizz-info");
-    clearWarnings("#second-screen");
+    const questions = document.querySelectorAll("#quizz-questions-screen .quizz-info");
+    clearWarnings("#quizz-questions-screen");
     questions.forEach((question) => {
         let questionObject = {};
         let answerArray = [];
@@ -271,16 +270,16 @@ function validateSecondPage(){
         questionObject["answers"] = answerArray;
         questionsArray.push(questionObject);
     });
-    const errorList = document.querySelectorAll("#second-screen .error");
+    const errorList = document.querySelectorAll("#quizz-questions-screen .error");
     if(errorList.length === 0){
-        creatingQuizzObject["questions"] = questionsArray;
+        newQuizzObject["questions"] = questionsArray;
         renderScreen(3)
     }
 }
-function validateThirdPage() {
+function validateQuizzLevels() {
     let levelsArray = [];
-    const levels = document.querySelectorAll("#third-screen .quizz-info");
-    clearWarnings("#third-screen");
+    const levels = document.querySelectorAll("#quizz-levels-screen .quizz-info");
+    clearWarnings("#quizz-levels-screen");
     levels.forEach(level => {
         let levelObject = {};
         const levelTitle = level.querySelector(".level-title");
@@ -305,26 +304,26 @@ function validateThirdPage() {
         levelObject["minValue"] = levelPercent.value;
         levelsArray.push(levelObject);
     });
-    const errorList = document.querySelectorAll("#third-screen .error");
+    const errorList = document.querySelectorAll("#quizz-levels-screen .error");
     if(errorList.length === 0) {
-        creatingQuizzObject["levels"] = levelsArray;
+        newQuizzObject["levels"] = levelsArray;
         if(editMode){
-            let promise = axios.put(`https://mock-api.bootcamp.respondeai.com.br/api/v2/buzzquizz/quizzes/${editId}`, creatingQuizzObject, {headers: {'Secret-Key': `${localStorage[editId]}`}});
-            promise.then(validateFourthPage);
+            let promise = axios.put(`https://mock-api.bootcamp.respondeai.com.br/api/v2/buzzquizz/quizzes/${editId}`, newQuizzObject, {headers: {'Secret-Key': `${localStorage[editId]}`}});
+            promise.then(quizzSuccess);
             loadingToggle(true);
         } else{
-            let promise = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/buzzquizz/quizzes', creatingQuizzObject);
-            promise.then(validateFourthPage);
+            let promise = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/buzzquizz/quizzes', newQuizzObject);
+            promise.then(quizzSuccess);
             loadingToggle(true);
         }
     }
 }
-function validateFourthPage(response){
+function quizzSuccess(response){
     getQuizzes();
     editMode = false;
     editId = null;
-    let fourthScreen = document.getElementById("fourth-screen");
-    fourthScreen.innerHTML = `
+    let successScreen = document.getElementById("quizz-success-screen");
+    successScreen.innerHTML = `
         <div class="head">
             Seu quizz está pronto!
         </div>`;
@@ -337,7 +336,7 @@ function validateFourthPage(response){
         </div>
         <button class="red-button" onclick="openQuizz(${response.data.id})">Acessar Quizz</button>
         <button class="back-home" onclick="toggleScreen('.back-home')">Voltar pra home</button>`
-    fourthScreen.innerHTML += newQuizz;
+    successScreen.innerHTML += newQuizz;
     setLocalStorage(response.data.id, response.data.key);
     levelsNumber = null;
     renderScreen(4);
@@ -365,11 +364,11 @@ function editQuizz(id){
     quizzBanner.value = currentQuizzObject.image
     questionsQuantity.value = currentQuizzObject.questions.length
     levelsQuantity.value = currentQuizzObject.levels.length
-    toggleScreen("#first-screen")
+    toggleScreen("#basic-info-screen")
 }
 function editSecondScreen(){
     const oldNumberOfQuestions = currentQuizzObject.questions.length
-    const quizzInfos = document.querySelectorAll("#second-screen .quizz-info");
+    const quizzInfos = document.querySelectorAll("#quizz-questions-screen .quizz-info");
     for (let i = 0; i < quizzInfos.length; i++) {
         if(i < oldNumberOfQuestions){
             const questionText = quizzInfos[i].querySelector(".question-text");
@@ -396,7 +395,7 @@ function editSecondScreen(){
 }
 function editThirdScreen(){
     const oldNumberOfLevels = currentQuizzObject.levels.length
-    const quizzInfos = document.querySelectorAll("#third-screen .quizz-info");
+    const quizzInfos = document.querySelectorAll("#quizz-levels-screen .quizz-info");
     const firstLevel = currentQuizzObject.levels.filter(level => level.minValue === (0 || "0"));
     const otherLevels = currentQuizzObject.levels.filter(level => level.minValue !== (0 || "0"));
     for (let i = 0; i < quizzInfos.length; i++) {
@@ -422,7 +421,7 @@ function editThirdScreen(){
 function renderScreen(screenNumber, questions){
     if(screenNumber === 2){
         questions = parseInt(questions);
-        let secondScreen = document.getElementById("second-screen");
+        let secondScreen = document.getElementById("quizz-questions-screen");
         let selected;
         secondScreen.innerHTML = `
             <div class="head">
@@ -462,13 +461,13 @@ function renderScreen(screenNumber, questions){
             secondScreen.innerHTML += newQuestion;
         }
         secondScreen.innerHTML += `
-            <button class="red-button" onclick="validateSecondPage()">Prosseguir pra criar níveis</button>
+            <button class="red-button" onclick="validateQuizzQuestions()">Prosseguir pra criar níveis</button>
             <div class="bottom-padding">&nbsp;</div>`
         if(editMode){editSecondScreen()}    
-        toggleScreen('#second-screen')
+        toggleScreen('#quizz-questions-screen')
     } else if(screenNumber === 3){
         levelsNumber = parseInt(levelsNumber);
-        let thirdScreen = document.getElementById("third-screen");
+        let thirdScreen = document.getElementById("quizz-levels-screen");
         let selected;
         let disabled;
         thirdScreen.innerHTML = `                
@@ -501,12 +500,12 @@ function renderScreen(screenNumber, questions){
             thirdScreen.innerHTML += newLevel;
         }
         thirdScreen.innerHTML += `
-            <button class="red-button" onclick="validateThirdPage()">Finalizar Quizz</button>
+            <button class="red-button" onclick="validateQuizzLevels()">Finalizar Quizz</button>
             <div class="bottom-padding">&nbsp;</div>`
         if(editMode){editThirdScreen()}    
-        toggleScreen('#third-screen')
+        toggleScreen('#quizz-levels-screen')
     } else if(screenNumber === 4){
-        toggleScreen('#fourth-screen')
+        toggleScreen('#quizz-success-screen')
     }
 }
 function deleteQuizz(id) {
@@ -521,9 +520,9 @@ function deleteQuizz(id) {
         loadingToggle(true);
     }
 }
-function loadingToggle(boolean){
+function loadingToggle(isLoading){
     const screen = document.getElementById("loading-screen")
-    if(boolean){
+    if(isLoading){
         screen.style.display = "flex"
         setTimeout(function(){
             screen.style.opacity = "1"
