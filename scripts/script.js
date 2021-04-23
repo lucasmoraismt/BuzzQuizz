@@ -316,6 +316,7 @@ function validateThirdPage() {
     }
 }
 function validateFourthPage(response){
+    getQuizzes();
     let fourthScreen = document.getElementById("fourth-screen");
     let newQuizz = `
         <div class="quizz" onclick="renderQuizz(${response.data.id})">
@@ -438,5 +439,14 @@ function renderScreen(n, questions){
         toggleScreen('#third-screen')
     } else if(n === 4){
         toggleScreen('#fourth-screen')
+    }
+}
+function deleteQuizz(id) {
+    let secretKey = localStorage[id];
+    let deleteObject = {}
+
+    if(window.confirm('Realmente deseja excluir o quizz?')) {
+        let promise = axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/buzzquizz/quizzes/${id}`, );
+        promise.then(getQuizzes);
     }
 }
