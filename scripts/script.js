@@ -16,6 +16,7 @@ function getQuizzes() {
     let promise = axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v2/buzzquizz/quizzes');
 
     promise.then(displayQuizzes);
+    loadingToggle(true);     
 }
 function displayQuizzes(response) {
 
@@ -68,6 +69,7 @@ function displayQuizzes(response) {
     } else {
         yourQuizzes.classList.add("hidden");
     }
+    loadingToggle(false)
 }
 function openQuizz(id) {
     renderQuizz(id);
@@ -78,7 +80,6 @@ function toggleScreen(selector){
     const bodyStyle = document.querySelector("body").style
     const lastPage = document.querySelector(lastPageSelector)
     if(selector === ".back-home"){
-        getQuizzes();
         lastPage.style.left = "100%";
         bodyStyle.overflow = "scroll";
         setTimeout(function(){
@@ -310,12 +311,17 @@ function validateThirdPage() {
         } else{
             let promise = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/buzzquizz/quizzes', creatingQuizzObject);
             promise.then(validateFourthPage);
+            loadingToggle(true);
         }
     }
 }
 function validateFourthPage(response){
     editMode = false;
     let fourthScreen = document.getElementById("fourth-screen");
+    fourthScreen.innerHTML = `
+        <div class="head">
+            Seu quizz está pronto!
+        </div>`;
     let newQuizz = `
         <div class="quizz" onclick="openQuizz(${response.data.id})">
             <img src="${response.data.image}">
@@ -387,8 +393,8 @@ function editSecondScreen(){
 function editThirdScreen(){
     const oldNumberOfLevels = currentQuizzObject.levels.length
     const quizzInfos = document.querySelectorAll("#third-screen .quizz-info");
-    const firstLevel = currentQuizzObject.levels.filter(level => level.minValue === 0);
-    const otherLevels = currentQuizzObject.levels.filter(level => level.minValue !== 0);
+    const firstLevel = currentQuizzObject.levels.filter(level => level.minValue === (0 || "0"));
+    const otherLevels = currentQuizzObject.levels.filter(level => level.minValue !== (0 || "0"));
     for (let i = 0; i < quizzInfos.length; i++) {
         if(i < oldNumberOfLevels){
             const levelTitle = quizzInfos[i].querySelector(".level-title");
@@ -415,6 +421,10 @@ function renderScreen(screenNumber, questions){
         questions = parseInt(questions);
         let secondScreen = document.getElementById("second-screen");
         let selected;
+        secondScreen.innerHTML = `
+            <div class="head">
+                Crie suas perguntas
+            </div>`;
         for(i = 0; i < questions; i++) {
             if(i===0){selected = " selected"} else {selected = ""};
             const newQuestion = `
@@ -458,6 +468,10 @@ function renderScreen(screenNumber, questions){
         let thirdScreen = document.getElementById("third-screen");
         let selected;
         let disabled;
+        thirdScreen.innerHTML = `                
+            <div class="head">
+                Agora, decida os níveis
+            </div>`;
         for(i = 0; i < levelsNumber; i++) {
             if(i===0){
                 selected = " selected"
@@ -504,5 +518,21 @@ function deleteQuizz(id) {
             }
         });
         promise.then(getQuizzes);
+        loadingToggle(true);
+    }
+}
+
+function loadingToggle(boolean){
+    const screen = document.getElementById("loading-screen")
+    if(boolean){
+        screen.style.display = "flex"
+        setTimeout(function(){
+            screen.style.opacity = "1"
+        },50);
+    }else{
+        screen.style.opacity = "0"
+        setTimeout(function(){
+            screen.style.display = "none"
+        },400);
     }
 }
