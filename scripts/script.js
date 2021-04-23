@@ -309,7 +309,6 @@ function validateThirdPage() {
     }
 }
 function validateFourthPage(response){
-    getQuizzes();
     let fourthScreen = document.getElementById("fourth-screen");
     let newQuizz = `
         <div class="quizz" onclick="renderQuizz(${response.data.id})">
@@ -323,6 +322,7 @@ function validateFourthPage(response){
     fourthScreen.innerHTML += newQuizz;
     setLocalStorage(response.data.id, response.data.key);
     levelsNumber = null;
+    getQuizzes();
     renderScreen(4);
 }
 function isHex(string){
@@ -439,7 +439,12 @@ function deleteQuizz(id) {
     let deleteObject = {}
 
     if(window.confirm('Realmente deseja excluir o quizz?')) {
-        let promise = axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/buzzquizz/quizzes/${id}`, );
+        localStorage.removeItem(id, `${secretKey}`);
+        let promise = axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/buzzquizz/quizzes/${id}`, {
+            headers: {
+                'Secret-Key': `${secretKey}`
+            }
+        });
         promise.then(getQuizzes);
     }
 }
