@@ -320,6 +320,7 @@ function validateThirdPage() {
     }
 }
 function validateFourthPage(response){
+    console.log(response)
     let fourthScreen = document.getElementById("fourth-screen");
     let newQuizz = `
         <div class="quizz" onclick="renderQuizz(${response.id})">
@@ -371,7 +372,6 @@ function removeFromArray(arr, item){
 function renderScreen(n, questions){
     if(n === 2){
         questions = parseInt(questions);
-        if(questions > 3) {
             let secondScreen = document.getElementById("second-screen");
             let selected;
             for(i = 0; i < questions; i++) {
@@ -400,11 +400,9 @@ function renderScreen(n, questions){
             secondScreen.innerHTML += `
                 <button class="red-button" onclick="validateSecondPage()">Prosseguir pra criar níveis</button>
                 <div class="bottom-padding">&nbsp;</div>`
-        }
         toggleScreen('#second-screen')
     } else if(n === 3){
         levelsNumber = parseInt(levelsNumber);
-        if(levelsNumber > 2) {
             let thirdScreen = document.getElementById("third-screen");
             let selected;
             for(i = 0; i < levelsNumber; i++) {
@@ -425,7 +423,6 @@ function renderScreen(n, questions){
             thirdScreen.innerHTML += `
                 <button class="red-button" onclick="validateThirdPage()">Finalizar Quizz</button>
                 <div class="bottom-padding">&nbsp;</div>`
-        }
         toggleScreen('#third-screen')
     } else if(n === 4){
         toggleScreen('#fourth-screen')
