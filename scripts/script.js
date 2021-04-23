@@ -40,7 +40,7 @@ function displayQuizzes(response) {
             <ion-icon name="add-circle" onclick="toggleScreen('#first-screen')"></ion-icon>
         </div>`
     quizzesArray = response.data;
-    for (i = 0; i < response.data.length; i++) {
+    for (i = 0; i < quizzesArray.length; i++) {
 
         let quizz = quizzesArray[i];
         let quizzHTML = `
@@ -51,6 +51,21 @@ function displayQuizzes(response) {
             </li>`
 
         if(localStorageArray.includes(`${quizz.id}`)) {
+            quizzHTML = `
+                <li class="quizz" style="background-image: url(${quizz.image});">
+                    <div id="gradient" onclick="openQuizz(${quizz.id})">
+                        <p class="quizz-title">${quizz.title}</p>
+                    </div>
+                    <div class="edit-delete">
+                    <div class="edit" onclick="editQuizz(${quizz.id})">
+                        <ion-icon name="create-outline"></ion-icon>
+                    </div>
+                    <div class="delete" onclick="deleteQuizz(${quizz.id})">
+                        <ion-icon name="trash-outline"></ion-icon>
+                    </div>
+                </div>
+                </li>
+                `
             yourQuizzes.innerHTML += quizzHTML;
         } else {
             allQuizzes.innerHTML += quizzHTML;

@@ -3,7 +3,6 @@ a, div, span, h1, p, li, input, input::placeholder, textarea, textarea::placehol
     font-family: 'Roboto', sans-serif;
     word-break: break-all;
 }
-
 body {
     background: #FAFAFA;
 }
@@ -20,14 +19,12 @@ body {
     justify-content: center;
     z-index: 2;
 }
-
 .top h1 {
     font-weight: bold;
     font-size: 37px;
     line-height: 43px;
     color: #FFF;
 }
-
 #app {
     position: relative;
     overflow-x: hidden;
@@ -46,7 +43,6 @@ body {
     border: 1px dashed #D5D5D5;
     border-radius: 5px;
 }
-
 .start-quizz p {
     width: 75%;
     text-align: center;
@@ -55,7 +51,6 @@ body {
     color: #B9B9B9;
     word-break: break-word;
 }
-
 .start-quizz button {
     width: 150px;
     height: 40px;
@@ -66,25 +61,21 @@ body {
     line-height: 25px;
     color: #EC362D;
 }
-
 .your-quizzes, .all-quizzes {
     width: 100%;
     display: flex;
     flex-direction: column;
     margin: 30px 0px;
 }
-
 .your-quizzes div {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-
 .your-quizzes ion-icon {
     font-size: 32px;
     color: #EC362D;
 }
-
 .title {
     font-weight: bold;
     font-size: 20px;
@@ -92,7 +83,6 @@ body {
     color: #000000;
     width: 100%;
 }
-
 .quizz {
     width: 100%;
     height: 180px;
@@ -103,13 +93,33 @@ body {
     background-position: center;
     background-size: cover;
 }
-
 .quizz img {
     width: 100%;
     height: 100%;
     border-radius: 5px;
 }
-
+.quizz .edit-delete {
+    position: absolute;
+    right: 0;
+    top: 10px;
+    width: 45px;
+    height: 85px;
+    background-color: #EC362D;
+    flex-direction: column;
+    border-radius: 10px 0px 0px 11px;
+}
+.edit-delete .edit, .edit-delete .delete {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50%;
+    width: 100%;
+}
+.quizz .edit-delete ion-icon {
+    text-align: center;
+    font-size: 24px;
+    color: #FFF;
+}
 #gradient {
     position: absolute;
     top: 0;
@@ -121,7 +131,6 @@ body {
     align-items: flex-end;
     background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.5) 65.62%, rgba(0, 0, 0, 0.8) 100%);
 }
-
 .quizz .quizz-title {
     margin:0px 15px 20px;
     font-size: 19px;
@@ -171,7 +180,6 @@ body {
     color: #FFFFFF;
     background-color: rgb(0, 0, 0, .6);
 }
-
 #inside-quizz .question-box{
     background-color: #FFFFFF; 
     padding: 18px;
@@ -187,7 +195,6 @@ body {
     text-align: center;
     color: #FFFFFF;
 }
-
 #inside-quizz .options{
     display: flex;
     flex-wrap: wrap;
@@ -231,7 +238,6 @@ body {
     font-size: 17px;
     margin-bottom: 34px;
 }
-
 #inside-quizz .level div{
     background-color: #EC362D;
     padding: 22px 16px;
@@ -263,13 +269,11 @@ button.back-home{
     background-color: #FAFAFA;
 
 }
-
 #create-quizz {
     background-color: #FAFAFA;
     width: 100vw;
     overflow-y: auto;
 }
-
 #first-screen, #second-screen, #third-screen, #fourth-screen {
     position: fixed;
     width: 100%;
@@ -300,7 +304,6 @@ button.back-home{
     width: 90vw;
     margin-bottom: 25px;
 }
-
 .head {
     width: 100%;
     height: 90px;
@@ -313,7 +316,6 @@ button.back-home{
     line-height: 23px;
     color: #000000;
 }
-
 #create-quizz .quizz-info {
     width: 100%;
     max-height: 62px;
@@ -327,32 +329,26 @@ button.back-home{
     margin-bottom: 25px;
     border-bottom: solid 15px #FFFFFF;
 }
-
 .icon {
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-
 .icon ion-icon {
     font-size: 24px;
     color: #000;
 }
-
 #create-quizz .quizz-info.selected {
     max-height: 1000px;
     border-bottom: 0px;
 }
-
 .quizz-info.selected ion-icon {
     color: transparent;
 }
-
 .quizz-info .title {
     margin: 10px 0px;
 }
-
 #create-quizz input {
     margin-bottom: 10px;
     width: 100%;
@@ -372,7 +368,6 @@ button.back-home{
     padding: 0px 15px;
     font-size: 19px;
 }
-
 #create-quizz input::placeholder {
     font-style: italic;
     font-size: 19px;
@@ -387,7 +382,6 @@ button.back-home{
     color: #BABABA;
     vertical-align: middle; 
 }
-
 .hidden {
     display: none;
 }
@@ -452,6 +446,5 @@ button.back-home{
     #inside-quizz .level span{
         word-break: normal;
     }
-
 
 }
