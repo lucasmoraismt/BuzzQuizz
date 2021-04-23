@@ -291,7 +291,7 @@ function validateQuizzLevels() {
         if(levelTitle.value.length < 10){
             showWarning(levelTitle)
         }
-        if(levelPercent.value === ""){
+        if(levelPercent.value === "" || levelPercent.value > 100 || levelPercent.value < 0){
             showWarning(levelPercent)
         }
         if(levelDescription.value === ""){
@@ -491,7 +491,7 @@ function renderLevelsScreen(){
                 <input class="level-title" type="text" placeholder="Título do nível">
                 <span class="warning">O título deve ter no mínimo 10 caracteres</span>
                 <input class="minimum-rights" type="number" placeholder="% de acerto mínima"${disabled}>
-                <span class="warning">Digite uma porcentagem mínima de acertos</span>
+                <span class="warning">Digite uma porcentagem mínima de acertos (0 - 100)</span>
                 <input class="level-image" type="url" placeholder="URL da imagem do nível">
                 <span class="warning">Insira uma URL válida</span>
                 <textarea class="description" placeholder="Descrição do nível"></textarea>
