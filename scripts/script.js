@@ -1,25 +1,14 @@
 
 let quizzesArray = [];
-let localStorageArray = [];
 let currentQuizzObject = {};
 let creatingQuizzObject = {};
 let levelsNumber = null;
 let questionsNumber = null;
-getLocalStorage();
 getQuizzes();
 
-function getLocalStorage() {
-    let string = localStorage.getItem("id");
-    if(string !== null) {
-        newArray = string.split(",");
-        localStorageArray = newArray;
-    }
-}
-
-function setLocalStorage(newId) {
-    localStorageArray.push(newId);
-    newString = localStorageArray.toString();
-    localStorage.setItem('id', `${newString}`);
+function setLocalStorage(newId, key) {
+    newId = parseInt(newId);
+    localStorage.setItem(newId, `${key}`);
 }
 
 function getQuizzes() {
@@ -50,7 +39,7 @@ function displayQuizzes(response) {
                 </div>
             </li>`
 
-        if(localStorageArray.includes(`${quizz.id}`)) {
+        if(localStorage[quizz.id]) {
             quizzHTML = `
                 <li class="quizz" style="background-image: url(${quizz.image});">
                     <div id="gradient" onclick="openQuizz(${quizz.id})">
@@ -347,7 +336,7 @@ function validateFourthPage(response){
         <button class="red-button" onclick="renderQuizz(${response.data.id})">Acessar Quizz</button>
         <button class="back-home" onclick="toggleScreen('.back-home')">Voltar pra home</button>`
     fourthScreen.innerHTML += newQuizz;
-    setLocalStorage(response.data.id);
+    setLocalStorage(response.data.id, response.data.key);
     getLocalStorage();
     levelsNumber = null;
     renderScreen(4);
