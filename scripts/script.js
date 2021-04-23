@@ -5,6 +5,7 @@ let creatingQuizzObject = {};
 let levelsNumber = null;
 let questionsNumber = null;
 let lastPageSelector = "body";
+let editMode = false;
 getQuizzes();
 
 function setLocalStorage(newId, key) {
@@ -353,8 +354,23 @@ function sortUnique(array){
 function removeFromArray(arr, item){
    return (arr = arr.filter(n => n !== item));
 }
-function renderScreen(n, questions){
-    if(n === 2){
+
+function editQuizz(id){
+    currentQuizzObject = quizzesArray.find(quizz => quizz.id === id);
+    editMode = false;
+    const quizzTitle = document.getElementById("quizz-title")
+    const quizzBanner = document.getElementById("quizz-banner")
+    const questionsQuantity = document.getElementById("questions-quantity")
+    const levelsQuantity = document.getElementById("levels-quantity")
+    quizzTitle.value = currentQuizzObject.title
+    quizzBanner.value = currentQuizzObject.image
+    questionsQuantity.value = currentQuizzObject.questions.length
+    levelsQuantity.value = currentQuizzObject.levels.length
+    toggleScreen("#first-screen")
+}
+
+function renderScreen(screenNumber, questions){
+    if(screenNumber === 2){
         questions = parseInt(questions);
             let secondScreen = document.getElementById("second-screen");
             let selected;
@@ -395,7 +411,7 @@ function renderScreen(n, questions){
                 <button class="red-button" onclick="validateSecondPage()">Prosseguir pra criar níveis</button>
                 <div class="bottom-padding">&nbsp;</div>`
         toggleScreen('#second-screen')
-    } else if(n === 3){
+    } else if(screenNumber === 3){
         levelsNumber = parseInt(levelsNumber);
             let thirdScreen = document.getElementById("third-screen");
             let selected;
@@ -429,7 +445,7 @@ function renderScreen(n, questions){
                 <button class="red-button" onclick="validateThirdPage()">Finalizar Quizz</button>
                 <div class="bottom-padding">&nbsp;</div>`
         toggleScreen('#third-screen')
-    } else if(n === 4){
+    } else if(screenNumber === 4){
         toggleScreen('#fourth-screen')
     }
 }
