@@ -312,17 +312,18 @@ function validateThirdPage() {
 function validateFourthPage(response){
     let fourthScreen = document.getElementById("fourth-screen");
     let newQuizz = `
-        <div class="quizz" onclick="renderQuizz(${response.data.id})">
+        <div class="quizz" onclick="openQuizz(${response.data.id})">
             <img src="${response.data.image}">
             <div id="gradient">
                 <p class="quizz-title">${response.data.title}</p>
             </div>
         </div>
-        <button class="red-button" onclick="renderQuizz(${response.data.id})">Acessar Quizz</button>
+        <button class="red-button" onclick="openQuizz(${response.data.id})">Acessar Quizz</button>
         <button class="back-home" onclick="toggleScreen('.back-home')">Voltar pra home</button>`
     fourthScreen.innerHTML += newQuizz;
     setLocalStorage(response.data.id, response.data.key);
     levelsNumber = null;
+    getQuizzes();
     renderScreen(4);
 }
 function isHex(string){
@@ -447,5 +448,19 @@ function renderScreen(screenNumber, questions){
         toggleScreen('#third-screen')
     } else if(screenNumber === 4){
         toggleScreen('#fourth-screen')
+    }
+}
+function deleteQuizz(id) {
+    let secretKey = localStorage[id];
+    let deleteObject = {}
+
+    if(window.confirm('Realmente deseja excluir o quizz?')) {
+        localStorage.removeItem(id, `${secretKey}`);
+        let promise = axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/buzzquizz/quizzes/${id}`, {
+            headers: {
+                'Secret-Key': `${secretKey}`
+            }
+        });
+        promise.then(getQuizzes);
     }
 }
