@@ -374,8 +374,8 @@ function renderScreen(n, questions){
         if(questions > 3) {
             let secondScreen = document.getElementById("second-screen");
             let selected;
-            if(i===0){selected = " selected"} else {selected = ""};
             for(i = 0; i < questions; i++) {
+                if(i===0){selected = " selected"} else {selected = ""};
                 const newQuestion = `
                     <div class="quizz-info${selected}" onclick="openOption(this)">
                         <div class="icon">
@@ -406,8 +406,8 @@ function renderScreen(n, questions){
         levelsNumber = parseInt(levelsNumber);
         if(levelsNumber > 2) {
             let thirdScreen = document.getElementById("third-screen");
+            let selected;
             for(i = 0; i < levelsNumber; i++) {
-                let selected;
                 if(i===0){selected = " selected"} else {selected = ""};
                 const newLevel = `
                     <div class="quizz-info${selected}" onclick="openOption(this)">
