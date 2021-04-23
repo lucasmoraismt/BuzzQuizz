@@ -221,13 +221,9 @@ function validateFirstPage(){
 };
 function validateSecondPage(){
     let questionsArray = [];
-    let unfilteredErrors = [];
-    let filteredErrors = [];
-    let unfilteredValidWrongs = [];
-    let filteredValidWrongs = [];
     const questions = document.querySelectorAll("#second-screen .quizz-info");
     clearWarnings("#second-screen");
-    questions.forEach((question, iterations) => {
+    questions.forEach((question, iteration) => {
         let questionObject = {};
         let answerArray = [];
         const questionText = question.querySelector(".question-text");
@@ -255,29 +251,26 @@ function validateSecondPage(){
             const text = wrongAnswerArray[i].value;
             const img = wrongImageArray[i].value;
             if(text !== "" && isURL(img)){
-                unfilteredValidWrongs.push(iterations)
                 answerArray.push({text: text, image: img, isCorrectAnswer: false});
-            } else if(text === "" || !isURL(img) ){
-                unfilteredErrors.push("Insira a resposta incorreta com uma imagem.");   
             }
+            if(text !== "" && !isURL(img)){
+                showWarning(wrongImageArray[i])
+            }
+            if(text === "" && isURL(img)){
+                showWarning(wrongAnswerArray[i])
+            }
+        }
+        if(answerArray.length < 2){
+            showWarning(wrongImageArray[0])
+            showWarning(wrongAnswerArray[0])
         }
         questionObject["answers"] = answerArray;
         questionsArray.push(questionObject);
     });
-    filteredErrors = sortUnique(unfilteredErrors);
-    filteredValidWrongs = sortUnique(unfilteredValidWrongs);
     const errorList = document.querySelectorAll("#second-screen .error");
-    if(filteredValidWrongs.length === questionsNumber){
-        const item = "Insira a resposta incorreta com uma imagem."
-        filteredErrors = removeFromArray(filteredErrors, item)
-    }
-    if(filteredErrors.length === 0){
+    if(errorList.length === 0){
         creatingQuizzObject["questions"] = questionsArray;
         renderScreen(3)
-    } else {
-        let alertMessage = '';
-        filteredErrors.forEach(msg => alertMessage += msg + "\n");
-        alert(alertMessage);
     }
 }
 function validateThirdPage() {
@@ -385,17 +378,17 @@ function renderScreen(n, questions){
                         <span class="warning">Insira uma URL válida</span>
                         <p class="title">Respostas incorretas</p>
                         <input class="wrong-answer" type="text" placeholder="Resposta incorreta 1">
-                        <span class="warning">O título deve ter de 20 a 65 caracteres</span>
+                        <span class="warning">Insira uma resposta incorreta</span>
                         <input class="wrong-image" type="url" placeholder="URL da imagem 1">
-                        <span class="warning">O título deve ter de 20 a 65 caracteres</span>
+                        <span class="warning">Insira uma URL válida</span>
                         <input class="wrong-answer" type="text" placeholder="Resposta incorreta 2">
-                        <span class="warning">O título deve ter de 20 a 65 caracteres</span>
+                        <span class="warning">Insira um texo para a imagem incorreta</span>
                         <input class="wrong-image" type="url" placeholder="URL da imagem 2">
-                        <span class="warning">O título deve ter de 20 a 65 caracteres</span>
+                        <span class="warning">Insira uma URL válida</span>
                         <input class="wrong-answer" type="text" placeholder="Resposta incorreta 3">
-                        <span class="warning">O título deve ter de 20 a 65 caracteres</span>
+                        <span class="warning">Insira um texo para a imagem incorreta</span>
                         <input class="wrong-image" type="url" placeholder="URL da imagem 3">
-                        <span class="warning">O título deve ter de 20 a 65 caracteres</span>
+                        <span class="warning">Insira uma URL válida</span>
                     </div>`
                 secondScreen.innerHTML += newQuestion;
             }
