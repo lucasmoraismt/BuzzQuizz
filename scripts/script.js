@@ -66,7 +66,9 @@ function displayQuizzes(response) {
     let startQuizz = document.querySelector(".start-quizz");
     if(youHaveQuizzes !== null) {
         startQuizz.classList.add("hidden");
-        yourQuizzes.classList.remove("hidden");
+        if(yourQuizzes.classList.contains("hidden")) {
+            yourQuizzes.classList.remove("hidden");
+        }
         yourQuizzes.style.margin = "0px 0px 30px 0px"
     } else {
         startQuizz.classList.remove("hidden");
